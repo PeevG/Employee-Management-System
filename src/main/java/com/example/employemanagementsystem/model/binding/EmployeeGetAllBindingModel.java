@@ -1,6 +1,6 @@
 package com.example.employemanagementsystem.model.binding;
 
-public class EmployeeGetAllDto {
+public class EmployeeGetAllBindingModel {
     private String firstName;
     private String lastName;
     private String email;
@@ -9,7 +9,7 @@ public class EmployeeGetAllDto {
         return firstName;
     }
 
-    public EmployeeGetAllDto setFirstName(String firstName) {
+    public EmployeeGetAllBindingModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -18,7 +18,7 @@ public class EmployeeGetAllDto {
         return lastName;
     }
 
-    public EmployeeGetAllDto setLastName(String lastName) {
+    public EmployeeGetAllBindingModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -27,7 +27,7 @@ public class EmployeeGetAllDto {
         return email;
     }
 
-    public EmployeeGetAllDto setEmail(String email) {
+    public EmployeeGetAllBindingModel setEmail(String email) {
         this.email = email;
         return this;
     }
