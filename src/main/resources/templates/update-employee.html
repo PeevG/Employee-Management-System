@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Employee Management System</title>
@@ -11,12 +11,15 @@
 <body>
 
 <div class="container my-2">
-    <h2 class="text-center text-black">Add Employee</h2>
+    <h2 class="text-center text-black">Update Employee</h2>
     <form
-            th:action="@{/employees/add}"
-            th:method="post"
-            th:object="${employeeAddBindingModel}"
+            th:object="${employeeUpdateBindingModel}"
+            th:action="@{/employees/{id}/update(id=*{id})}"
+            th:method="PATCH"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+        <input type="hidden" th:field="*{id}"/>
+
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="firstName" class="text-black font-weight-bold">First Name</label>
@@ -25,8 +28,7 @@
                         th:field="*{firstName}"
                         th:errorclass="is-invalid"
                         type="text"
-                        class="form-control"
-                        placeholder="First name"/>
+                        class="form-control"/>
                 <p class="invalid-feedback errors alert alert-danger">
                     First name is required and should be between 3 and 25 symbols.
                 </p>
@@ -38,8 +40,7 @@
                         th:field="*{lastName}"
                         th:errorclass="is-invalid"
                         type="text"
-                        class="form-control"
-                        placeholder="Last name"/>
+                        class="form-control"/>
                 <p class="invalid-feedback errors alert alert-danger">
                     Last name is required.
                 </p>
@@ -53,8 +54,7 @@
                         th:field="*{age}"
                         th:errorclass="is-invalid"
                         type="text"
-                        class="form-control"
-                        placeholder="Age"/>
+                        class="form-control"/>
                 <p class="invalid-feedback errors alert alert-danger">
                     Age is required.
                 </p>
@@ -66,8 +66,7 @@
                         th:field="*{email}"
                         th:errorclass="is-invalid"
                         type="email"
-                        class="form-control"
-                        placeholder="Email"/>
+                        class="form-control"/>
                 <p class="invalid-feedback errors alert alert-danger">
                     Email is required and should be correct.
                 </p>
@@ -76,7 +75,7 @@
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Add"/>
+                    <input type="submit" class="btn btn-info btn-lg" value="Update"/>
                 </div>
             </div>
         </div>

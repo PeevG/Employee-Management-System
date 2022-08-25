@@ -1,14 +1,13 @@
 package com.example.employemanagementsystem.web;
 
 import com.example.employemanagementsystem.model.binding.EmployeeAddBindingModel;
+import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
+import com.example.employemanagementsystem.model.view.EmployeeUpdateView;
 import com.example.employemanagementsystem.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,11 +23,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-//    @ModelAttribute("employeeModel")
-//    public EmployeeAddBindingModel employeeModel() {
-//        return new EmployeeAddBindingModel();
-//    }
-
     @GetMapping("/all")
     public ModelAndView showEmployees() {
         ModelAndView modelAndView = new ModelAndView();
@@ -40,7 +34,7 @@ public class EmployeeController {
     @GetMapping("/add")
     public String addEmployee(Model model) {
 
-        if(!model.containsAttribute("employeeAddBindingModel")){
+        if (!model.containsAttribute("employeeAddBindingModel")) {
             model.addAttribute("employeeAddBindingModel", new EmployeeAddBindingModel());
         }
         return "add-employee";
@@ -48,13 +42,13 @@ public class EmployeeController {
 
     @PostMapping("/add")
     public String addEmployee(@Valid EmployeeAddBindingModel employeeAddBindingModel,
-                                    BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) {
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("employeeModel", employeeAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.employeeModel"
-                    ,bindingResult);
+                    , bindingResult);
 
             return "redirect:/employees/add";
         }
@@ -62,4 +56,32 @@ public class EmployeeController {
 
         return "redirect:/employees/all";
     }
+
+    @GetMapping("/{id}/update")
+    public String updateEmployee(@PathVariable Long id, Model model) {
+        EmployeeUpdateBindingModel employeeUpdateBindingModel = employeeService.getEmployeeById(id);
+        model.addAttribute("employeeUpdateBindingModel", employeeUpdateBindingModel);
+        return "update-employee";
+    }
+
+    @PatchMapping("/{id}/update")
+    public String updateEmployee(@PathVariable Long id,
+                                 @Valid EmployeeUpdateBindingModel employeeUpdateBindingModel,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("employeeUpdateBindingModel", employeeUpdateBindingModel);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.employeeUpdateBindingModel"
+                    ,bindingResult);
+
+            return "redirect:/employees/" + id + "/update";
+        }
+
+        employeeService.updateEmployee(employeeUpdateBindingModel);
+
+        return "redirect:/employees/all";
+    }
+
 }

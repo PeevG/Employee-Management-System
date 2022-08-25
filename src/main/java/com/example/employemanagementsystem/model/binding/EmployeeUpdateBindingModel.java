@@ -1,11 +1,10 @@
 package com.example.employemanagementsystem.model.binding;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.*;
 
-public class EmployeeAddBindingModel {
+public class EmployeeUpdateBindingModel {
 
+    private Long id;
     @NotBlank()
     @Size(min = 3, max = 25)
     private String firstName;
@@ -22,11 +21,20 @@ public class EmployeeAddBindingModel {
     @Email
     private String email;
 
+    public Long getId() {
+        return id;
+    }
+
+    public EmployeeUpdateBindingModel setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
-    public EmployeeAddBindingModel setFirstName(String firstName) {
+    public EmployeeUpdateBindingModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -35,7 +43,7 @@ public class EmployeeAddBindingModel {
         return lastName;
     }
 
-    public EmployeeAddBindingModel setLastName(String lastName) {
+    public EmployeeUpdateBindingModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -44,7 +52,7 @@ public class EmployeeAddBindingModel {
         return age;
     }
 
-    public EmployeeAddBindingModel setAge(Integer age) {
+    public EmployeeUpdateBindingModel setAge(Integer age) {
         this.age = age;
         return this;
     }
@@ -53,7 +61,7 @@ public class EmployeeAddBindingModel {
         return email;
     }
 
-    public EmployeeAddBindingModel setEmail(String email) {
+    public EmployeeUpdateBindingModel setEmail(String email) {
         this.email = email;
         return this;
     }
