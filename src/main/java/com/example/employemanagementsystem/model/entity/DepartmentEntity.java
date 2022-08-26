@@ -12,7 +12,7 @@ public class DepartmentEntity extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
-    private List<EmployeeEntity> employeeEntities = new ArrayList<>();
+    private List<EmployeeEntity> employeeEntities;
 
     @Column(columnDefinition = "LONGTEXT")
     private String description;
@@ -26,11 +26,11 @@ public class DepartmentEntity extends BaseEntity {
         return this;
     }
 
-    public List<EmployeeEntity> getEmployees() {
+    public List<EmployeeEntity> getEmployeeEntities() {
         return employeeEntities;
     }
 
-    public DepartmentEntity setEmployees(List<EmployeeEntity> employeeEntities) {
+    public DepartmentEntity setEmployeeEntities(List<EmployeeEntity> employeeEntities) {
         this.employeeEntities = employeeEntities;
         return this;
     }
@@ -41,15 +41,6 @@ public class DepartmentEntity extends BaseEntity {
 
     public DepartmentEntity setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public List<EmployeeEntity> getEmployeeEntities() {
-        return employeeEntities;
-    }
-
-    public DepartmentEntity setEmployeeEntities(List<EmployeeEntity> employeeEntities) {
-        this.employeeEntities = employeeEntities;
         return this;
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,17 +33,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeGetAllBindingModel> showAllEmployees() {
-        List<EmployeeGetAllBindingModel> employeeGetAllBindingModels = employeeRepository
+        return employeeRepository
                 .findAll()
                 .stream()
                 .map(this::mapEmployeeEntityToBindingModel)
                 .collect(Collectors.toList());
-
-        return employeeGetAllBindingModels;
     }
 
     @Override
-    public void addEmployee(@Valid EmployeeAddBindingModel employeeAddBindingModel) {
+    public void addEmployee(EmployeeAddBindingModel employeeAddBindingModel) {
         EmployeeEntity employee = modelMapper.map(employeeAddBindingModel, EmployeeEntity.class);
         DepartmentEntity department = departmentRepository
                 .findByName(employeeAddBindingModel.getDepartment()).orElseThrow(()

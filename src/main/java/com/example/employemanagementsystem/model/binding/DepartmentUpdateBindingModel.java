@@ -3,7 +3,7 @@ package com.example.employemanagementsystem.model.binding;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class DepartmentAddBindingModel {
+public class DepartmentUpdateBindingModel {
 
     private Long id;
     @NotBlank()
@@ -17,7 +17,7 @@ public class DepartmentAddBindingModel {
         return id;
     }
 
-    public DepartmentAddBindingModel setId(Long id) {
+    public DepartmentUpdateBindingModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -26,7 +26,7 @@ public class DepartmentAddBindingModel {
         return name;
     }
 
-    public DepartmentAddBindingModel setName(String name) {
+    public DepartmentUpdateBindingModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -35,7 +35,7 @@ public class DepartmentAddBindingModel {
         return description;
     }
 
-    public DepartmentAddBindingModel setDescription(String description) {
+    public DepartmentUpdateBindingModel setDescription(String description) {
         this.description = description;
         return this;
     }
