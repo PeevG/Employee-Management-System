@@ -4,40 +4,52 @@ import com.example.employemanagementsystem.exception.ObjectNotFoundException;
 import com.example.employemanagementsystem.model.binding.EmployeeAddBindingModel;
 import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
 import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
+import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.repository.EmployeeRepository;
 import com.example.employemanagementsystem.service.EmployeeService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
     private final ModelMapper modelMapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, ModelMapper modelMapper) {
         this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public List<EmployeeGetAllBindingModel> showAllEmployees() {
-        return employeeRepository
+        List<EmployeeGetAllBindingModel> employeeGetAllBindingModels = employeeRepository
                 .findAll()
                 .stream()
-                .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeGetAllBindingModel.class))
+                .map(this::mapEmployeeEntityToBindingModel)
                 .collect(Collectors.toList());
+
+        return employeeGetAllBindingModels;
     }
 
     @Override
     public void addEmployee(@Valid EmployeeAddBindingModel employeeAddBindingModel) {
         EmployeeEntity employee = modelMapper.map(employeeAddBindingModel, EmployeeEntity.class);
+        DepartmentEntity department = departmentRepository
+                .findByName(employeeAddBindingModel.getDepartment()).orElseThrow(()
+                -> new ObjectNotFoundException("Department with name " + employeeAddBindingModel.getDepartment() + " is not found."));
+        employee.setDepartment(department);
         this.employeeRepository.save(employee);
     }
 
@@ -66,8 +78,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
-//        EmployeeEntity employee = employeeRepository.findById(id)
-//                .orElseThrow(() -> new ObjectNotFoundException("Employee with " + id + " is not found."));
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<EmployeeGetAllBindingModel> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+
+        return employeeRepository.findAll(pageable)
+                .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeGetAllBindingModel.class));
+
+    }
+
+    EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {
+        EmployeeGetAllBindingModel model = modelMapper.map(employee, EmployeeGetAllBindingModel.class);
+        model.setDepartment(employee.getDepartment().getName());
+        return model;
     }
 }

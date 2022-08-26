@@ -10,17 +10,12 @@
 
 </head>
 <body>
-
-<!--<div th:replace="fragments/navbar :: navbar">
-    Navbar
-</div>-->
-
 <div class="container-fluid">
 
 <h1 class="container text-center text-black mt-5">Welcome to Our Management System!</h1>
     <div class="card-body text-center">
         <a class="btn btn-primary" th:href="@{/employees/all}">Employees List</a>
-        <a class="btn btn-primary" >Departments List</a>
+        <a class="btn btn-primary" th:href="@{/departments/all}" >Departments List</a>
     </div>
 </div>
 

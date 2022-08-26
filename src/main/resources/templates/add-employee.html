@@ -72,6 +72,19 @@
                     Email is required and should be correct.
                 </p>
             </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="department" class="text-black font-weight-bold">Department name</label>
+                <input
+                        id="department"
+                        th:field="*{department}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"
+                        placeholder="Department name"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Department name is required and should be between 3 and 25 symbols.
+                </p>
+            </div>
         </div>
         <div class="row">
             <div class="col col-md-4">

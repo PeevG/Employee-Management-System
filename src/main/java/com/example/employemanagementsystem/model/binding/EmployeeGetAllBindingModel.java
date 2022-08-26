@@ -1,10 +1,12 @@
 package com.example.employemanagementsystem.model.binding;
 
 public class EmployeeGetAllBindingModel {
+
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
+    private String department;
 
     public Long getId() {
         return id;
@@ -39,6 +41,15 @@ public class EmployeeGetAllBindingModel {
 
     public EmployeeGetAllBindingModel setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public EmployeeGetAllBindingModel setDepartment(String department) {
+        this.department = department;
         return this;
     }
 }

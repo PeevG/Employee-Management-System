@@ -1,6 +1,7 @@
 package com.example.employemanagementsystem.model.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,8 +11,8 @@ public class DepartmentEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<EmployeeEntity> employeeEntities;
+    @OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
+    private List<EmployeeEntity> employeeEntities = new ArrayList<>();
 
     @Column(columnDefinition = "LONGTEXT")
     private String description;
@@ -40,6 +41,15 @@ public class DepartmentEntity extends BaseEntity {
 
     public DepartmentEntity setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public List<EmployeeEntity> getEmployeeEntities() {
+        return employeeEntities;
+    }
+
+    public DepartmentEntity setEmployeeEntities(List<EmployeeEntity> employeeEntities) {
+        this.employeeEntities = employeeEntities;
         return this;
     }
 }

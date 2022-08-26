@@ -1,7 +1,5 @@
 package com.example.employemanagementsystem.model.binding;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.*;
 
 public class EmployeeAddBindingModel {
@@ -21,6 +19,10 @@ public class EmployeeAddBindingModel {
 
     @Email
     private String email;
+
+    @NotBlank()
+    @Size(min = 3, max = 25)
+    private String department;
 
     public String getFirstName() {
         return firstName;
@@ -55,6 +57,15 @@ public class EmployeeAddBindingModel {
 
     public EmployeeAddBindingModel setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public EmployeeAddBindingModel setDepartment(String department) {
+        this.department = department;
         return this;
     }
 }
