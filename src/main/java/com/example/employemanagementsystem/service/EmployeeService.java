@@ -15,4 +15,5 @@ public interface EmployeeService {
     EmployeeUpdateBindingModel getEmployeeById(long id);
 
     void updateEmployee(EmployeeUpdateBindingModel employeeUpdateBindingModel);
+    void deleteEmployee(Long id);
 }

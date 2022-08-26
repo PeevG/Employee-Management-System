@@ -48,7 +48,7 @@ public class EmployeeController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("employeeModel", employeeAddBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.employeeModel"
-                    , bindingResult);
+                    ,bindingResult);
 
             return "redirect:/employees/add";
         }
@@ -78,9 +78,13 @@ public class EmployeeController {
 
             return "redirect:/employees/" + id + "/update";
         }
-
         employeeService.updateEmployee(employeeUpdateBindingModel);
+        return "redirect:/employees/all";
+    }
 
+    @GetMapping("/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployee(id);
         return "redirect:/employees/all";
     }
 
