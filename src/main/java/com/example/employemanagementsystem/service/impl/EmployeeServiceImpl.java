@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeEntity employee = modelMapper.map(employeeAddBindingModel, EmployeeEntity.class);
         DepartmentEntity department = departmentRepository
                 .findByName(employeeAddBindingModel.getDepartment()).orElseThrow(()
-                -> new ObjectNotFoundException("Department with name " + employeeAddBindingModel.getDepartment() + " is not found."));
+                        -> new ObjectNotFoundException("Department with name " + employeeAddBindingModel.getDepartment() + " is not found."));
         employee.setDepartment(department);
         this.employeeRepository.save(employee);
     }
@@ -64,11 +65,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         EmployeeUpdateBindingModel employeeById = getEmployeeById(employeeUpdateBindingModel.getId());
         EmployeeEntity employee = modelMapper.map(employeeById, EmployeeEntity.class);
+        DepartmentEntity department = departmentRepository.findByName(employeeUpdateBindingModel.getDepartment()).get();
 
         employee.setFirstName(employeeUpdateBindingModel.getFirstName())
                 .setLastName(employeeUpdateBindingModel.getLastName())
                 .setAge(employeeUpdateBindingModel.getAge())
-                .setEmail(employeeUpdateBindingModel.getEmail());
+                .setEmail(employeeUpdateBindingModel.getEmail())
+                .setDepartment(department)
+                .setId(employeeUpdateBindingModel.getId());
 
         employeeRepository.save(employee);
     }
@@ -77,6 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
+
 
     @Override
     public Page<EmployeeGetAllBindingModel> findPaginated(int pageNo, int pageSize) {

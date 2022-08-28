@@ -19,7 +19,11 @@ public class EmployeeUpdateBindingModel {
     private Integer age;
 
     @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
+    private String department;
 
     public Long getId() {
         return id;
@@ -63,6 +67,15 @@ public class EmployeeUpdateBindingModel {
 
     public EmployeeUpdateBindingModel setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public EmployeeUpdateBindingModel setDepartment(String department) {
+        this.department = department;
         return this;
     }
 }

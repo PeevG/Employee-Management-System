@@ -5,6 +5,7 @@ import com.example.employemanagementsystem.model.binding.DepartmentAddBindingMod
 import com.example.employemanagementsystem.model.binding.DepartmentUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.view.DepartmentViewModel;
+import com.example.employemanagementsystem.model.view.EmployeesPerDepartmentViewModel;
 import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.service.DepartmentService;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +32,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository
                 .findAll()
                 .stream()
-                .map(departmentEntity -> modelMapper.map(departmentEntity, DepartmentViewModel.class))
+                .map(this::mapDepEntityToDepViewModel)
                 .collect(Collectors.toList());
     }
 
@@ -54,5 +56,44 @@ public class DepartmentServiceImpl implements DepartmentService {
         DepartmentEntity departmentEntity = departmentRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Department with id " + id + " is not found."));
         return modelMapper.map(departmentEntity, DepartmentUpdateBindingModel.class);
+    }
+
+    @Override
+    public void deleteDepartment(Long id) {
+        DepartmentEntity department = departmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("Department with id " + id + " is not found."));
+        departmentRepository.delete(department);
+    }
+
+    @Override
+    public List<EmployeesPerDepartmentViewModel> getEmployeesByDepartment(Long id) {
+        DepartmentEntity dep = departmentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Not found"));
+
+        List<EmployeesPerDepartmentViewModel> viewModels = dep.getEmployeeEntities()
+                .stream()
+                .map(employee -> modelMapper.map(employee, EmployeesPerDepartmentViewModel.class))
+                .collect(Collectors.toList());
+        return viewModels;
+    }
+
+    @Override
+    public boolean findDepartmentByName(String name) {
+        Optional<DepartmentEntity> optionalDepartment = departmentRepository.findByName(name);
+        return optionalDepartment.isPresent();
+    }
+
+
+    DepartmentViewModel mapDepEntityToDepViewModel(DepartmentEntity department) {
+        List<EmployeesPerDepartmentViewModel> employees = department
+                .getEmployeeEntities()
+                .stream()
+                .map(employee -> modelMapper.map(employee, EmployeesPerDepartmentViewModel.class))
+                .collect(Collectors.toList());
+
+        DepartmentViewModel model = modelMapper.map(department, DepartmentViewModel.class);
+
+        model.setEmployees(employees);
+        return model;
     }
 }

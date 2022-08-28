@@ -32,6 +32,14 @@ public class DepartmentController {
         return "get-departments";
     }
 
+    @GetMapping("/{id}/details")
+    public String showEmployeesByDepartment(@PathVariable Long id, Model model) {
+        model.addAttribute("listOfDepartments", departmentService.showAllDepartments());
+        model.addAttribute("employeesPerDep", departmentService.getEmployeesByDepartment(id));
+        model.addAttribute("pageTitle", departmentService.getById(id).getName());
+        return "employees-per-department";
+    }
+
     @GetMapping("/add")
     public String addDepartment(Model model) {
         if (!model.containsAttribute("departmentAddBindingModel")) {
@@ -45,10 +53,19 @@ public class DepartmentController {
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("departmentModel", bindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.bindingModel"
-                    , bindingResult);
+            redirectAttributes.addFlashAttribute("departmentAddBindingModel", bindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.departmentAddBindingModel"
+                    ,bindingResult);
+            return "redirect:/departments/add";
         }
+
+        if (departmentService.findDepartmentByName(bindingModel.getName())) {
+            redirectAttributes.addFlashAttribute("departmentModel", bindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.departmentModel"
+                    , bindingResult);
+            return "redirect:/departments/add";
+        }
+
         departmentService.addDepartment(bindingModel);
         return "redirect:/departments/all";
     }
@@ -71,8 +88,13 @@ public class DepartmentController {
                             , bindingResult);
             return "redirect:/departments/" + id + "/update";
         }
-
         departmentService.updateDepartment(bindingModel);
+        return "redirect:/departments/all";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteDepartment(@PathVariable Long id) {
+        departmentService.deleteDepartment(id);
         return "redirect:/departments/all";
     }
 }

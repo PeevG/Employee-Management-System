@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 
 public class EmployeeAddBindingModel {
 
+    private Long id;
     @NotBlank()
     @Size(min = 3, max = 25)
     private String firstName;
@@ -66,6 +67,15 @@ public class EmployeeAddBindingModel {
 
     public EmployeeAddBindingModel setDepartment(String department) {
         this.department = department;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public EmployeeAddBindingModel setId(Long id) {
+        this.id = id;
         return this;
     }
 }

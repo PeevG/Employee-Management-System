@@ -9,6 +9,7 @@ public class DepartmentViewModel {
     private Long id;
     private String name;
     private String description;
+    private List<EmployeesPerDepartmentViewModel> employees;
 
     public Long getId() {
         return id;
@@ -34,4 +35,12 @@ public class DepartmentViewModel {
         return this;
     }
 
+    public List<EmployeesPerDepartmentViewModel> getEmployees() {
+        return employees;
+    }
+
+    public DepartmentViewModel setEmployees(List<EmployeesPerDepartmentViewModel> employees) {
+        this.employees = employees;
+        return this;
+    }
 }

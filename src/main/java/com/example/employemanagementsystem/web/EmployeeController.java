@@ -1,11 +1,10 @@
 package com.example.employemanagementsystem.web;
 
 import com.example.employemanagementsystem.model.binding.EmployeeAddBindingModel;
-import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
 import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
-import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+import com.example.employemanagementsystem.model.view.DepartmentViewModel;
+import com.example.employemanagementsystem.service.DepartmentService;
 import com.example.employemanagementsystem.service.EmployeeService;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,32 +13,37 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final DepartmentService departmentService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
         this.employeeService = employeeService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/all")
     public ModelAndView showEmployees() {
-      /*return getPaginated(1, model);*/
+        /*return getPaginated(1, model);*/
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("get-employees");
         modelAndView.addObject("listOfEmployees", employeeService.showAllEmployees());
+        modelAndView.addObject("listOfDepartments", departmentService.showAllDepartments()
+                .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
         return modelAndView;
     }
 
     @GetMapping("/add")
     public String addEmployee(Model model) {
-
         if (!model.containsAttribute("employeeAddBindingModel")) {
             model.addAttribute("employeeAddBindingModel", new EmployeeAddBindingModel());
+            model.addAttribute("listOfDepartments", departmentService.showAllDepartments()
+                    .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
         }
         return "add-employee";
     }
@@ -50,14 +54,14 @@ public class EmployeeController {
                               RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("employeeModel", employeeAddBindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.employeeModel"
+            redirectAttributes.addFlashAttribute("employeeAddBindingModel", employeeAddBindingModel);
+            redirectAttributes.addFlashAttribute("listOfDepartments", departmentService.showAllDepartments()
+                    .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.employeeAddBindingModel"
                     ,bindingResult);
-
             return "redirect:/employees/add";
         }
         employeeService.addEmployee(employeeAddBindingModel);
-
         return "redirect:/employees/all";
     }
 
@@ -65,26 +69,38 @@ public class EmployeeController {
     public String updateEmployee(@PathVariable Long id, Model model) {
         EmployeeUpdateBindingModel employeeUpdateBindingModel = employeeService.getEmployeeById(id);
         model.addAttribute("employeeUpdateBindingModel", employeeUpdateBindingModel);
+        model.addAttribute("listOfDepartments", departmentService.showAllDepartments()
+                .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
+        return "update-employee";
+    }
+
+    @GetMapping("/{id}/update/errors")
+    public String updateEmployeeErrors(@PathVariable Long id, Model model) {
+
+        model.addAttribute("listOfDepartments", departmentService.showAllDepartments());
         return "update-employee";
     }
 
     @PatchMapping("/{id}/update")
     public String updateEmployee(@PathVariable Long id,
-                                 @Valid EmployeeUpdateBindingModel employeeUpdateBindingModel,
+                                 @Valid EmployeeUpdateBindingModel bindingModel,
                                  BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes){
+                                 RedirectAttributes redirectAttributes) {
 
-        if(bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("employeeUpdateBindingModel", employeeUpdateBindingModel);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("employeeUpdateBindingModel", bindingModel);
+            redirectAttributes.addFlashAttribute("listOfDepartments", departmentService.showAllDepartments());
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.employeeUpdateBindingModel"
-                    ,bindingResult);
+                            ,bindingResult);
 
-            return "redirect:/employees/" + id + "/update";
+            return "redirect:/employees/" + id + "/update/errors";
         }
-        employeeService.updateEmployee(employeeUpdateBindingModel);
+
+        employeeService.updateEmployee(bindingModel);
         return "redirect:/employees/all";
     }
+
     @GetMapping("/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
