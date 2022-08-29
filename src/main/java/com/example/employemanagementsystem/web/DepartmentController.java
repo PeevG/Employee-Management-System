@@ -52,17 +52,10 @@ public class DepartmentController {
     public String addDepartment(@Valid DepartmentAddBindingModel bindingModel,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || departmentService.findDepartmentByName(bindingModel.getName())) {
             redirectAttributes.addFlashAttribute("departmentAddBindingModel", bindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.departmentAddBindingModel"
                     ,bindingResult);
-            return "redirect:/departments/add";
-        }
-
-        if (departmentService.findDepartmentByName(bindingModel.getName())) {
-            redirectAttributes.addFlashAttribute("departmentModel", bindingModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.departmentModel"
-                    , bindingResult);
             return "redirect:/departments/add";
         }
 
@@ -77,6 +70,11 @@ public class DepartmentController {
         return "update-department";
     }
 
+    @GetMapping("/{id}/update/errors")
+    public String updateDepartmentErrors() {
+        return "update-department";
+    }
+
     @PatchMapping("/{id}/update")
     public String updateDepartment(@PathVariable Long id,
                                    @Valid DepartmentUpdateBindingModel bindingModel,
@@ -86,7 +84,7 @@ public class DepartmentController {
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.bindingModel"
                             , bindingResult);
-            return "redirect:/departments/" + id + "/update";
+            return "redirect:/departments/" + id + "/update/errors";
         }
         departmentService.updateDepartment(bindingModel);
         return "redirect:/departments/all";

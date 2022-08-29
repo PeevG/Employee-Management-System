@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -75,9 +76,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}/update/errors")
-    public String updateEmployeeErrors(@PathVariable Long id, Model model) {
+    public String updateEmployeeErrors(Model model) {
 
-        model.addAttribute("listOfDepartments", departmentService.showAllDepartments());
+        model.addAttribute("listOfDepartments", departmentService
+                .showAllDepartments()
+                .stream()
+                .map(DepartmentViewModel::getName).collect(Collectors.toList()));
         return "update-employee";
     }
 
