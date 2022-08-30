@@ -6,15 +6,21 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "roles")
 public class UserRoleEntity extends BaseEntity {
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private UserRoleEnum name;
+
+    public UserRoleEntity() {
+    }
+
+    public UserRoleEntity(UserRoleEnum name) {
+        this.name = name;
+    }
 
     public UserRoleEnum getName() {
         return name;

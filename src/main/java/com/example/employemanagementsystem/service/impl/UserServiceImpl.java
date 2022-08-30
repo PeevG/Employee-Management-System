@@ -30,14 +30,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(UserRegisterBindingModel bindingModel) {
-        UserRoleEntity userRole = userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER);
+        UserRoleEntity role = userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER);
 
         UserEntity user = modelMapper.map(bindingModel, UserEntity.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()))
-                .setRoles(List.of(userRole));
+                .setRoles(List.of(role));
 
         userRepository.save(user);
-
     }
 
     @Override

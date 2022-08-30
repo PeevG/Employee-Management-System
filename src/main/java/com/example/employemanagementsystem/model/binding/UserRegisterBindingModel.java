@@ -1,22 +1,17 @@
 package com.example.employemanagementsystem.model.binding;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 public class UserRegisterBindingModel {
 
     @NotBlank
-    @Min(3)@Max(20)
     private String userName;
 
     @NotBlank
-    @Min(3)@Max(20)
     private String firstName;
 
     @NotBlank
-    @Min(3)@Max(20)
     private String lastName;
 
     @NotBlank

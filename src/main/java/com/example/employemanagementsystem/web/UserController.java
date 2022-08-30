@@ -51,6 +51,6 @@ public class UserController {
         }
 
         userService.registerUser(bindingModel);
-        return "redirect:/registration?success";
+        return "redirect:/users/registration?success";
     }
 }
