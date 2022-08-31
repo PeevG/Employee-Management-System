@@ -9,8 +9,20 @@ public class UserLoginBindingModel {
     private String email;
 
     @NotBlank
+    private String username;
+
+    @NotBlank
     @Email
     private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public UserLoginBindingModel setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 
     public String getEmail() {
         return email;

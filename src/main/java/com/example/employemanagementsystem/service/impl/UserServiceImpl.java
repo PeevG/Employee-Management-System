@@ -10,6 +10,10 @@ import com.example.employemanagementsystem.repository.UserRepository;
 import com.example.employemanagementsystem.repository.UserRoleRepository;
 import com.example.employemanagementsystem.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -22,12 +26,14 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
+    private final CustomUserServiceImpl customUserService;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, CustomUserServiceImpl customUserService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
+        this.customUserService = customUserService;
     }
 
     @Override
@@ -36,17 +42,21 @@ public class UserServiceImpl implements UserService {
             UserEntity admin = new UserEntity();
             admin.setUserName("Admin").setFirstName("Simeon").setLastName("Ivanov").setPassword("123456")
                     .setConfirmPassword("123456").setEmail("admin@abv.bg")
-                    .setRoles(List.of(userRoleRepository.getReferenceById(1L)));
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER),
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR),
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.ADMIN)));
 
             UserEntity hrManager = new UserEntity();
             hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword("123456")
                     .setConfirmPassword("123456").setEmail("nat@abv.bg")
-                    .setRoles(List.of(userRoleRepository.getReferenceById(2L)));
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR)));
 
             UserEntity firstUser = new UserEntity();
             firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword("123456")
                     .setConfirmPassword("123456").setEmail("marto@abv.bg")
-                    .setRoles(List.of(userRoleRepository.getReferenceById(3L)));
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER)));
 
             userRepository.saveAll(List.of(admin, hrManager, firstUser));
         }
@@ -78,7 +88,15 @@ public class UserServiceImpl implements UserService {
         UserLoginBindingModel user = userRepository.findByEmail(userLoginBindingModel.getEmail())
                 .orElseThrow(() ->
                         new ObjectNotFoundException("User with email " + userLoginBindingModel.getEmail() + " is not exist."));
-        //Todo: Implement method
+
+        UserDetails principal = customUserService.loadUserByUsername(user.getUsername());
+
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(principal, user.getPassword(), principal.getAuthorities());
+
+        authentication.getAuthorities();
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 }
