@@ -3,21 +3,24 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
 </head>
 
 <body>
 <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand" href="/"><img alt="employees picture" src="/images/navbarLogo.jpeg" class="logo"></a>
-         <a class="navbar-brand" href="/">Home</a>
+    <nav class="px-3 navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+
         <!--<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggle-icon"></span>
         </button>-->
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class=" collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto col-12 justify-content-between">
-
+                <li>
+                    <a class="navbar-brand" href="/">Home</a>
+                </li>
                 <li>
                     <a class="nav-link" th:href="@{/employees/all}">All Employees</a>
                 </li>

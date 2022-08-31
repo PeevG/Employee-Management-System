@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface DepartmentService {
 
+    void seedDepartments();
     List<DepartmentViewModel> showAllDepartments();
     void addDepartment(DepartmentAddBindingModel departmentAddBindingModel);
     void updateDepartment(DepartmentUpdateBindingModel departmentUpdateBindingModel);

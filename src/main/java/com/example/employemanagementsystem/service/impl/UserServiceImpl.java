@@ -1,5 +1,7 @@
 package com.example.employemanagementsystem.service.impl;
 
+import com.example.employemanagementsystem.exception.ObjectNotFoundException;
+import com.example.employemanagementsystem.model.binding.UserLoginBindingModel;
 import com.example.employemanagementsystem.model.binding.UserRegisterBindingModel;
 import com.example.employemanagementsystem.model.entity.UserEntity;
 import com.example.employemanagementsystem.model.entity.UserRoleEntity;
@@ -29,6 +31,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void seedUsers() {
+        if (userRepository.count() < 1) {
+            UserEntity admin = new UserEntity();
+            admin.setUserName("Admin").setFirstName("Simeon").setLastName("Ivanov").setPassword("123456")
+                    .setConfirmPassword("123456").setEmail("admin@abv.bg")
+                    .setRoles(List.of(userRoleRepository.getReferenceById(1L)));
+
+            UserEntity hrManager = new UserEntity();
+            hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword("123456")
+                    .setConfirmPassword("123456").setEmail("nat@abv.bg")
+                    .setRoles(List.of(userRoleRepository.getReferenceById(2L)));
+
+            UserEntity firstUser = new UserEntity();
+            firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword("123456")
+                    .setConfirmPassword("123456").setEmail("marto@abv.bg")
+                    .setRoles(List.of(userRoleRepository.getReferenceById(3L)));
+
+            userRepository.saveAll(List.of(admin, hrManager, firstUser));
+        }
+    }
+
+    @Override
     public void registerUser(UserRegisterBindingModel bindingModel) {
         UserRoleEntity role = userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER);
 
@@ -47,6 +71,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean passwordsChecker(UserRegisterBindingModel bindingModel) {
         return bindingModel.getPassword().equals(bindingModel.getConfirmPassword());
+    }
+
+    @Override
+    public void loginUser(UserLoginBindingModel userLoginBindingModel) {
+        UserLoginBindingModel user = userRepository.findByEmail(userLoginBindingModel.getEmail())
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("User with email " + userLoginBindingModel.getEmail() + " is not exist."));
+        //Todo: Implement method
     }
 
 }

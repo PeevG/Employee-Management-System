@@ -1,23 +1,30 @@
 package com.example.employemanagementsystem.model.binding;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 public class UserRegisterBindingModel {
 
-    @NotBlank
+    @NotBlank(message = "Username is required and should be between 3 - 18 symbols.")
+    @Min(3)@Max(18)
     private String userName;
 
-    @NotBlank
+    @NotBlank(message = "First name is required and should be between 3 - 18 symbols.")
+    @Min(3)@Max(18)
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name is required and should be between 3 - 18 symbols.")
+    @Min(3)@Max(18)
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Password can not be empty and less than 6 symbols.")
+    @Min(6)
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "Confirm password can not be empty and less than 6 symbols.")
+    @Min(6)
     private String confirmPassword;
 
     @Email

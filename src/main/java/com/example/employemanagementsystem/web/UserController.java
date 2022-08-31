@@ -1,5 +1,6 @@
 package com.example.employemanagementsystem.web;
 
+import com.example.employemanagementsystem.model.binding.UserLoginBindingModel;
 import com.example.employemanagementsystem.model.binding.UserRegisterBindingModel;
 import com.example.employemanagementsystem.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -52,5 +53,26 @@ public class UserController {
 
         userService.registerUser(bindingModel);
         return "redirect:/users/registration?success";
+    }
+
+    @GetMapping("/login")
+    public String loginUser(Model model) {
+        model.addAttribute("userLoginBindingModel", new UserLoginBindingModel());
+        return "redirect:/users/login";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@Valid UserLoginBindingModel userLoginBindingModel,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
+            redirectAttributes
+                    .addFlashAttribute
+                            ("org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
+            return "redirect:/users/login";
+        }
+        userService.loginUser(userLoginBindingModel);
+        return "redirect:/index";
     }
 }

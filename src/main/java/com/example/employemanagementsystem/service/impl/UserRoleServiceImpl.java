@@ -19,12 +19,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public void seedRoles() {
-        UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
-        UserRoleEntity salesManagerRole = new UserRoleEntity(UserRoleEnum.SALES_MANAGER);
-        UserRoleEntity hrManagerRole = new UserRoleEntity(UserRoleEnum.HR_MANAGER);
-        UserRoleEntity ceo = new UserRoleEntity(UserRoleEnum.CEO);
-        UserRoleEntity admin = new UserRoleEntity(UserRoleEnum.ADMIN);
+        if (userRoleRepository.count() < 1) {
+            UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
+            UserRoleEntity hrManagerRole = new UserRoleEntity(UserRoleEnum.HR_MANAGER);
+            UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
 
-        userRoleRepository.saveAll(List.of(userRole, salesManagerRole, hrManagerRole, ceo, admin));
+            userRoleRepository.saveAll(List.of(userRole, hrManagerRole, adminRole));
+        }
     }
 }

@@ -10,10 +10,11 @@ import java.util.List;
 public interface EmployeeService {
 
     List<EmployeeGetAllBindingModel> showAllEmployees();
-
     void addEmployee(EmployeeAddBindingModel employeeAddBindingModel);
     EmployeeUpdateBindingModel getEmployeeById(long id);
     void updateEmployee(EmployeeUpdateBindingModel employeeUpdateBindingModel);
     void deleteEmployee(Long id);
     Page<EmployeeGetAllBindingModel> findPaginated(int pageNo, int pageSize);
+
+    void seedEmployees();
 }

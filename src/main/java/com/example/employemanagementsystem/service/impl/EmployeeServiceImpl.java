@@ -32,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.modelMapper = modelMapper;
     }
 
+
     @Override
     public List<EmployeeGetAllBindingModel> showAllEmployees() {
         return employeeRepository
@@ -90,6 +91,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll(pageable)
                 .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeGetAllBindingModel.class));
 
+    }
+
+    @Override
+    public void seedEmployees() {
+        if (employeeRepository.count() < 1) {
+            EmployeeEntity ivo = new EmployeeEntity().setFirstName("Ivailo").setLastName("Ivailov")
+                    .setAge(21).setEmail("ivo@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+
+            EmployeeEntity desi = new EmployeeEntity().setFirstName("Desislava").setLastName("Stoianova")
+                    .setAge(27).setEmail("desi@gmail.com").setDepartment(departmentRepository.getReferenceById(2L));
+
+            EmployeeEntity pesho = new EmployeeEntity().setFirstName("Pesho").setLastName("Petrov")
+                    .setAge(32).setEmail("petyr@gmail.com").setDepartment(departmentRepository.getReferenceById(3L));
+
+            EmployeeEntity sasho = new EmployeeEntity().setFirstName("Aleksandyr").setLastName("Dimitrov")
+                    .setAge(29).setEmail("sashik@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+
+            EmployeeEntity gosho = new EmployeeEntity().setFirstName("Georgi").setLastName("Metodiev")
+                    .setAge(31).setEmail("joro@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+            employeeRepository.saveAll(List.of(ivo, desi, pesho, sasho, gosho));
+        }
     }
 
     EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {

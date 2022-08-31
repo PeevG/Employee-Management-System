@@ -28,6 +28,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public void seedDepartments() {
+        if (departmentRepository.count() < 1) {
+            DepartmentEntity webDevelopment = new DepartmentEntity().setName("Web Development")
+                    .setDescription("Web Development department.")
+                    .setEmployeeEntities(new ArrayList<>());
+
+            DepartmentEntity hrDepartment = new DepartmentEntity().setName("Human Resources")
+                    .setDescription("HR department.")
+                    .setEmployeeEntities(new ArrayList<>());
+
+            DepartmentEntity finance = new DepartmentEntity().setName("Finance")
+                    .setDescription("This is finance department.")
+                    .setEmployeeEntities(new ArrayList<>());
+
+            departmentRepository.saveAll(List.of(webDevelopment, hrDepartment, finance));
+        }
+    }
+
+    @Override
     public List<DepartmentViewModel> showAllDepartments() {
         return departmentRepository
                 .findAll()

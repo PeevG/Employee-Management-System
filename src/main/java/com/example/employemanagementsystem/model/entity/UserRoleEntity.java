@@ -2,16 +2,14 @@ package com.example.employemanagementsystem.model.entity;
 
 import com.example.employemanagementsystem.model.enums.UserRoleEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
 @Table(name = "roles")
 public class UserRoleEntity extends BaseEntity {
 
+    @Column(unique = true)
     @Enumerated(EnumType.STRING)
     private UserRoleEnum name;
 
