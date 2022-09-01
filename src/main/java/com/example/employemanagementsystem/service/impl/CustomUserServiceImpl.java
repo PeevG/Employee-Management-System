@@ -28,9 +28,9 @@ public class CustomUserServiceImpl implements UserDetailsService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User with username " + username + " is not found."));
 
-        UserDetails userDetails = userDetailsMapping(userEntity);
+        UserDetails user = userDetailsMapping(userEntity);
 
-        return userDetails;
+        return user;
     }
 
     private static UserDetails userDetailsMapping(UserEntity userEntity) {

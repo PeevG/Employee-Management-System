@@ -32,17 +32,27 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/", "/users/login", "/users/registration").permitAll()
-                .antMatchers("/employees/all", "/departments/all")
-                .hasAnyRole(UserRoleEnum.HR_MANAGER.name(), UserRoleEnum.ADMIN.name())
-                .antMatchers("/**").authenticated()
+                  .authorizeRequests()
+                  .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                  .antMatchers("/", "/users/login", "/users/registration").permitAll()
+                  .antMatchers("/employees/all", "/departments/all").permitAll()
+                  .antMatchers("/**").authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/users/login")
-                .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                .defaultSuccessUrl("/");
+                  .formLogin()
+                  .loginPage("/users/login")
+                  .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                  .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
+                  .defaultSuccessUrl("/")
+                  .failureForwardUrl("/users/login-error")
+                .and()
+                  .logout()
+                  // This is the URL which spring will implement for me and will log the user out.
+                  .logoutUrl("/users/logout")
+                  // Where to go after logout.
+                  .logoutSuccessUrl("/")
+                  // Remove the session from server
+                  .invalidateHttpSession(true)
+                  // Delete the cookies that references to my session.
+                  .deleteCookies("JSESSIONID");
     }
 }

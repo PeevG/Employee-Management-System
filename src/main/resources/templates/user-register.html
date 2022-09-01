@@ -12,15 +12,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed"
-                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                    aria-controls="navbar">
-                <span class="sr-only"> Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" th:href="@{/users/registration}">Registration and Login Module</a>
+            <a class="navbar-brand" href="#" th:href="@{/users/registration}">Registration Module</a>
         </div>
     </div>
 </nav>
@@ -30,9 +22,9 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
 
-            <div th:if="${param.success}">
+            <!--<div th:if="${param.success}">
                 <div class="alert alert-info">Registration was successful!</div>
-            </div>
+            </div>-->
 
             <h1> Registration</h1>
 
@@ -78,7 +70,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Register</button>
-                    <span>Already registered? <a href="/" th:href="@{login}">Login here</a></span>
+                    <span>Already registered? <a href="/" th:href="@{login}">LOGIN</a></span>
                 </div>
             </form>
         </div>

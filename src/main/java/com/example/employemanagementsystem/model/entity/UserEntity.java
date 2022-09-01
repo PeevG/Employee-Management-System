@@ -19,9 +19,6 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "confirm_password", nullable = false)
-    private String confirmPassword;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -61,15 +58,6 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserEntity setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
         return this;
     }
 

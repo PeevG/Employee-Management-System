@@ -40,22 +40,22 @@ public class UserServiceImpl implements UserService {
     public void seedUsers() {
         if (userRepository.count() < 1) {
             UserEntity admin = new UserEntity();
-            admin.setUserName("Admin").setFirstName("Simeon").setLastName("Ivanov").setPassword("123456")
-                    .setConfirmPassword("123456").setEmail("admin@abv.bg")
+            admin.setUserName("Admin").setFirstName("Simeon").setLastName("Ivanov").setPassword(passwordEncoder.encode("123456"))
+                    .setEmail("admin@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.ADMIN)));
 
             UserEntity hrManager = new UserEntity();
-            hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword("123456")
-                    .setConfirmPassword("123456").setEmail("nat@abv.bg")
+            hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword(passwordEncoder.encode("123456"))
+                    .setEmail("nat@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR)));
 
             UserEntity firstUser = new UserEntity();
-            firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword("123456")
-                    .setConfirmPassword("123456").setEmail("marto@abv.bg")
+            firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword(passwordEncoder.encode("123456"))
+                    .setEmail("marto@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER)));
 
             userRepository.saveAll(List.of(admin, hrManager, firstUser));
@@ -85,14 +85,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(UserLoginBindingModel userLoginBindingModel) {
-        UserLoginBindingModel user = userRepository.findByEmail(userLoginBindingModel.getEmail())
+        UserEntity userEntity = userRepository.findByUserName(userLoginBindingModel.getUsername())
                 .orElseThrow(() ->
-                        new ObjectNotFoundException("User with email " + userLoginBindingModel.getEmail() + " is not exist."));
+                        new ObjectNotFoundException("User with username " + userLoginBindingModel.getUsername() + " is not exist."));
 
-        UserDetails principal = customUserService.loadUserByUsername(user.getUsername());
+        UserDetails principal = customUserService.loadUserByUsername(userEntity.getUserName());
 
         Authentication authentication =
-                new UsernamePasswordAuthenticationToken(principal, user.getPassword(), principal.getAuthorities());
+                new UsernamePasswordAuthenticationToken(principal, userEntity.getPassword(), principal.getAuthorities());
 
         authentication.getAuthorities();
 
