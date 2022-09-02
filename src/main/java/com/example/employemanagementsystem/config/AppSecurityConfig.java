@@ -35,7 +35,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                   .authorizeRequests()
                   .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                   .antMatchers("/", "/users/login", "/users/registration").permitAll()
-                  .antMatchers("/employees/all", "/departments/all").permitAll()
+                  .antMatchers("/employees/all", "/departments/all")
+                  .hasAnyRole(UserRoleEnum.HR_MANAGER.name(), UserRoleEnum.ADMIN.name())
                   .antMatchers("/**").authenticated()
                 .and()
                   .formLogin()
@@ -49,7 +50,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                   // This is the URL which spring will implement for me and will log the user out.
                   .logoutUrl("/users/logout")
                   // Where to go after logout.
-                  .logoutSuccessUrl("/")
+                  .logoutSuccessUrl("/users/login")
                   // Remove the session from server
                   .invalidateHttpSession(true)
                   // Delete the cookies that references to my session.
