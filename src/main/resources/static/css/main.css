@@ -6,10 +6,23 @@ body{
     background-size: cover;
     background-color: cadetblue;
 }
+.navbar-brand {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
 table{
     background-image: linear-gradient(to bottom right, rgba(70, 70, 70, 0.8), rgba(10, 10, 10, 0.8));
     padding:10px 30px;
     background-color: #b4e6fa;
+}
+tbody{
+    color: #c5cfd9;
 }
 
 .container, .container-fluid {
@@ -39,6 +52,11 @@ span{
 
 :root{
     --bs-link-color: #adb5bd;
+}
+
+.navbar .logo {
+    max-height: 50px;
+    padding-right: 100px;
 }
 
 

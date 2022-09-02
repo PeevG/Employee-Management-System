@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,15 +84,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public Page<EmployeeGetAllBindingModel> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-
-        return employeeRepository.findAll(pageable)
-                .map(employeeEntity -> modelMapper.map(employeeEntity, EmployeeGetAllBindingModel.class));
-
-    }
-
-    @Override
     public void seedEmployees() {
         if (employeeRepository.count() < 1) {
             EmployeeEntity ivo = new EmployeeEntity().setFirstName("Ivailo").setLastName("Ivailov")
@@ -114,7 +104,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {
+    @Override
+    public Page<EmployeeGetAllBindingModel> getEmployeePageable(Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        Page<EmployeeEntity> entityPage = employeeRepository.findAll(pageable);
+        Page<EmployeeGetAllBindingModel> dtoPage = entityPage
+                .map(entity -> {
+                    EmployeeGetAllBindingModel dto = mapEmployeeEntityToBindingModel(entity);
+                    return dto;
+                });
+
+        return dtoPage;
+    }
+
+    public EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {
         EmployeeGetAllBindingModel model = modelMapper.map(employee, EmployeeGetAllBindingModel.class);
         model.setDepartment(employee.getDepartment().getName());
         return model;

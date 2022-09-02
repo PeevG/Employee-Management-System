@@ -16,19 +16,20 @@
 <div th:replace="fragments/navbar :: navbar">
     Navbar
 </div>
-<br><br>
-<br><br>
 <div class="container-fluid">
-    <h5 class="text-center text-dark mt-5">Welcome,
-        <span
+
+    <!--We need something better than welcome here.-->
+
+    <!--<h5 class="text-lg-start text-capitalize text-black mt-5">Welcome,
+        <a
                 sec:authorize="isAuthenticated()"
                 sec:authentication="name">
                 Name of the logged user.
-        </span>
-        <span sec:authorize="!isAuthenticated()">
+        </a>
+        <a sec:authorize="!isAuthenticated()">
             Stranger!
-        </span>
-    </h5>
+        </a>
+    </h5>-->
 </div>
 </body>
 </html>

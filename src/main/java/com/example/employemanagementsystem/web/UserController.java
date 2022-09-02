@@ -1,16 +1,15 @@
 package com.example.employemanagementsystem.web;
 
+import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
 import com.example.employemanagementsystem.model.binding.UserLoginBindingModel;
 import com.example.employemanagementsystem.model.binding.UserRegisterBindingModel;
 import com.example.employemanagementsystem.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -64,7 +63,7 @@ public class UserController {
         return "user-login";
     }
 
-    //Todo: wtf is this do ? Can not login user, still searching for problem. This is just Test method
+
     @PostMapping("/login-error")
     public String failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
                               RedirectAttributes redirectAttributes) {
@@ -89,4 +88,6 @@ public class UserController {
         userService.loginUser(userLoginBindingModel);
         return "redirect:/index";
     }
+
+
 }

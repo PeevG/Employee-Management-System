@@ -1,10 +1,13 @@
 package com.example.employemanagementsystem.web;
 
 import com.example.employemanagementsystem.model.binding.EmployeeAddBindingModel;
+import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
 import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
+import com.example.employemanagementsystem.model.entity.EmployeeEntity;
 import com.example.employemanagementsystem.model.view.DepartmentViewModel;
 import com.example.employemanagementsystem.service.DepartmentService;
 import com.example.employemanagementsystem.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +32,6 @@ public class EmployeeController {
 
     @GetMapping("/all")
     public ModelAndView showEmployees() {
-        /*return getPaginated(1, model);*/
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("get-employees");
         modelAndView.addObject("listOfEmployees", employeeService.showAllEmployees());
@@ -110,22 +112,6 @@ public class EmployeeController {
         return "redirect:/employees/all";
     }
 
-    /*@GetMapping("/page/{pageNo}")
-    public String getPaginated(@PathVariable (value = "pageNo") int pageNo, Model model){
-        int pageSize = 7;
 
-        Page<EmployeeGetAllBindingModel> page = employeeService.findPaginated(pageNo, pageSize);
-        List<EmployeeGetAllBindingModel> listEmployees = page.getContent();
-
-//        Page<EmployeeEntity> page = employeeService.findPaginated(pageNo, pageSize);
-//        List<EmployeeEntity> listEmployees = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalElements", page.getTotalElements());
-        model.addAttribute("listEmployees", listEmployees);
-
-        return "get-employees";
-    }*/
 }
 
