@@ -37,33 +37,63 @@
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.department}"></td>
             <td class="nav-item dropdown" sec:authorize="hasRole('ADMIN') || hasRole('HR_MANAGER')">
-                    <a th:href="@{/employees/{id}/update(id=${employee.id})}" class="btn btn-info" >Update</a>
-                    <a th:href="@{/employees/{id}(id=${employee.id})}" th:method="delete" class="btn btn-danger">Delete</a>
+                <a th:href="@{/employees/{id}/update(id=${employee.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{/employees/{id}(id=${employee.id})}" th:method="delete" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <!--<div th:if="${totalPages > 1}">
+    <div th:if="${totalPages > 1}">
         <div class="row col-sm-10">
             <div class="col-sm-2">
-                Total rows: [[${totalElements}]]
+                Total rows: [[${totalEmployees}]]
             </div>
-            <div class="col-sm-1">
-                <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${currentPage != i}" th:href="@{'/employees/all/page/' + ${i}}"> [[${i}]]</a>
-                    <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            <div class="col-sm-2">
+                <span class="pages" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="pages" th:if="${currentPage != i}"
+                       th:href="@{'/employees/pageable/' + ${i}}"> [[${i}]]</a>
+                    <span class="pages" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                 </span>
             </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/employees/all/page/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
+            <div class="col-sm-1 ">
+                <a class="pages" th:if="${currentPage < totalPages}"
+                   th:href="@{'/employees/pageable/' + ${currentPage + 1}}"> Next </a>
+                <span class="pages" th:unless="${currentPage < totalPages}"> Next </span>
             </div>
-                <a th:if="${currentPage < totalPages}" th:href="@{'/employees/all/page/' + ${totalPages}}">Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
+            <div class="col-sm-1">
+                <a class="pages" th:if="${currentPage < totalPages}"
+                   th:href="@{'/employees/pageable/' + ${totalPages}}"> Last </a>
+                <span class="pages" th:unless="${currentPage < totalPages}"> Last </span>
+            </div>
         </div>
-    </div>-->
 
+        <div class="col-sm-1">
+            <span class="pages">Results on page:
+                <a class="form-control-color" th:href="'/employees/pageable/' + ${currentPage} + '/6'"> 6</a>
+                <a class="form-control-color" th:href="'/employees/pageable/' + ${currentPage} + '/8'"> 8</a>
+                <a class="form-control-color" th:href="'/employees/pageable/' + ${currentPage} + '/10'"> 10</a>
+            </span>
+        </div>
+
+        <!--<label for="results-per-page">Results on page:</label>
+        <select id="results-per-page" th:onchange="'window.location.href =' '/employees/pagable/' + ${currentPage} + '/' + this.value">
+            <option th:value="6" >6</option>
+            <option th:value="8" >8</option>
+            <option th:value="10" >10</option>
+        </select>-->
+
+        <!--<label for="results-per-page">Results on page:</label>
+        <select
+                id="results-per-page"
+                th:onchange="'/employees/pageable/' + ${currentPage} + '/' + this.value">
+                    <option th:each="size : ${pageSizes}"
+                        th:value="size"
+                        th:text= "size"
+                    ></option>
+        </select>-->
+
+    </div>
 </div>
 </body>
 </html>

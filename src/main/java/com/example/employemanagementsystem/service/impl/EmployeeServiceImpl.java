@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -105,17 +106,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<EmployeeGetAllBindingModel> getEmployeePageable(Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+    public Page<EmployeeGetAllBindingModel> getEmployeePageable(Integer pageNo, Integer pageSize, String sortProperty) {
+
+        Pageable pageable;
+        if(pageSize == null) {
+            pageSize = 7;
+        }
+
+        if(sortProperty != null){
+            pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(Sort.Direction.ASC, sortProperty));
+        }else {
+            pageable = PageRequest.of(pageNo - 1, pageSize, Sort.unsorted());
+        }
 
         Page<EmployeeEntity> entityPage = employeeRepository.findAll(pageable);
-        Page<EmployeeGetAllBindingModel> dtoPage = entityPage
-                .map(entity -> {
-                    EmployeeGetAllBindingModel dto = mapEmployeeEntityToBindingModel(entity);
-                    return dto;
-                });
-
-        return dtoPage;
+        return entityPage
+                .map(this::mapEmployeeEntityToBindingModel);
     }
 
     public EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -31,13 +33,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public ModelAndView showEmployees() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("get-employees");
-        modelAndView.addObject("listOfEmployees", employeeService.showAllEmployees());
-        modelAndView.addObject("listOfDepartments", departmentService.showAllDepartments()
-                .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
-        return modelAndView;
+    public String showEmployees() {
+        return "employees/pageable";
     }
 
     @GetMapping("/add")
@@ -60,11 +57,11 @@ public class EmployeeController {
             redirectAttributes.addFlashAttribute("listOfDepartments", departmentService.showAllDepartments()
                     .stream().map(DepartmentViewModel::getName).collect(Collectors.toList()));
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.employeeAddBindingModel"
-                    ,bindingResult);
+                    , bindingResult);
             return "redirect:/employees/add";
         }
         employeeService.addEmployee(employeeAddBindingModel);
-        return "redirect:/employees/all";
+        return "redirect:/employees/pageable";
     }
 
     @GetMapping("/{id}/update")
@@ -97,21 +94,65 @@ public class EmployeeController {
             redirectAttributes.addFlashAttribute("listOfDepartments", departmentService.showAllDepartments());
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.employeeUpdateBindingModel"
-                            ,bindingResult);
+                            , bindingResult);
 
             return "redirect:/employees/" + id + "/update/errors";
         }
 
         employeeService.updateEmployee(bindingModel);
-        return "redirect:/employees/all";
+        return "redirect:/employees/pageable";
     }
 
     @GetMapping("/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
-        return "redirect:/employees/all";
+        return "redirect:/employees/pageable";
     }
 
+    @GetMapping("/pageable")
+    public String employeePagination(Model model) {
+        return employeePaginationPage(1, model);
+    }
+
+    @GetMapping("/pageable/{pageNo}")
+    public String employeePaginationPage(@PathVariable Integer pageNo,
+                                         Model model) {
+
+        Page<EmployeeGetAllBindingModel> bindingModelPage = employeeService.getEmployeePageable(pageNo, null, null);
+        List<EmployeeGetAllBindingModel> listOfEmployees = bindingModelPage.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", bindingModelPage.getTotalPages());
+        model.addAttribute("totalEmployees", bindingModelPage.getTotalElements());
+        model.addAttribute("listOfEmployees", listOfEmployees);
+
+        return "get-employees";
+    }
+
+    @GetMapping("/pageable/{pageNo}/{pageSize}")
+    public String employeePaginationPageSize(@PathVariable Integer pageNo,
+                                             @PathVariable Integer pageSize,
+                                             Model model) {
+
+        Page<EmployeeGetAllBindingModel> bindingModelPage = employeeService.getEmployeePageable(pageNo, pageSize, null);
+        List<EmployeeGetAllBindingModel> listOfEmployees = bindingModelPage.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", bindingModelPage.getTotalPages());
+        model.addAttribute("totalEmployees", bindingModelPage.getTotalElements());
+        model.addAttribute("listOfEmployees", listOfEmployees);
+
+        return "get-employees";
+    }
+
+    @GetMapping("/pageable/{pageNo}/{pageSize}/{sortProperty}")
+    public Page<EmployeeGetAllBindingModel> employeePaginationPageSizeSort(@PathVariable Integer pageNo,
+                                                                           @PathVariable Integer pageSize,
+                                                                           @PathVariable String sortProperty,
+                                                                           Model model) {
+        //ToDo: Implementation
+        return employeeService.getEmployeePageable(pageNo, pageSize, sortProperty);
+    }
 
 }
 

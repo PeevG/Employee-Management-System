@@ -18,7 +18,7 @@
                     </li>
 
                     <li class="nav-item" sec:authorize="hasRole('ADMIN') || hasRole('HR_MANAGER')">
-                        <a class="nav-link" th:href="@{/employees/all}">All Employees</a>
+                        <a class="nav-link" th:href="@{/employees/pageable/1}">All Employees</a>
                     </li>
 
                     <li class="nav-item" sec:authorize="hasAnyRole('ADMIN') || hasRole('HR_MANAGER')">
