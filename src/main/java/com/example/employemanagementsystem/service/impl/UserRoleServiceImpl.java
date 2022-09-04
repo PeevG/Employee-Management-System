@@ -23,9 +23,9 @@ public class UserRoleServiceImpl implements UserRoleService {
             UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
             UserRoleEntity hrManagerRole = new UserRoleEntity(UserRoleEnum.HR_MANAGER);
             UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
-            UserRoleEntity departmentDirector = new UserRoleEntity(UserRoleEnum.DEPARTMENT_DIRECTOR);
+            UserRoleEntity itLead = new UserRoleEntity(UserRoleEnum.IT_LEAD);
 
-            userRoleRepository.saveAll(List.of(adminRole, hrManagerRole, userRole, departmentDirector));
+            userRoleRepository.saveAll(List.of(adminRole, hrManagerRole, userRole, itLead));
         }
     }
 }

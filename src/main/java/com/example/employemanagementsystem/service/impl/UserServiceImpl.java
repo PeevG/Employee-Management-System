@@ -45,14 +45,14 @@ public class UserServiceImpl implements UserService {
                     .setEmail("admin@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
-                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR),
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.IT_LEAD),
                             userRoleRepository.findUserRoleEntityByName(UserRoleEnum.ADMIN)));
 
             UserEntity hrManager = new UserEntity();
             hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword(passwordEncoder.encode("123456"))
                     .setEmail("nat@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
-                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.DEPARTMENT_DIRECTOR)));
+                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.IT_LEAD)));
 
             UserEntity firstUser = new UserEntity();
             firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword(passwordEncoder.encode("123456"))

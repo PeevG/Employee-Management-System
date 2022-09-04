@@ -2,7 +2,7 @@ package com.example.employemanagementsystem.model.enums;
 
 public enum UserRoleEnum {
     ADMIN,
-    DEPARTMENT_DIRECTOR,
+    IT_LEAD,
     HR_MANAGER,
     USER
 }

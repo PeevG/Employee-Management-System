@@ -1,9 +1,7 @@
 package com.example.employemanagementsystem.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -23,6 +21,9 @@ public class EmployeeEntity extends BaseEntity {
 
     @ManyToOne()
     private DepartmentEntity department;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<ProjectEntity> projects;
 
     public String getFirstName() {
         return firstName;
@@ -66,6 +67,15 @@ public class EmployeeEntity extends BaseEntity {
 
     public EmployeeEntity setDepartment(DepartmentEntity department) {
         this.department = department;
+        return this;
+    }
+
+    public List<ProjectEntity> getProjects() {
+        return projects;
+    }
+
+    public EmployeeEntity setProjects(List<ProjectEntity> projects) {
+        this.projects = projects;
         return this;
     }
 }
