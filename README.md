@@ -4,7 +4,7 @@
 - **Department** - Support all **CRUD** operations depending on authorization(Spring Security)
 - **Employee** - Support all **CRUD** operations depending on authorization(Spring Security)
 - **User** - According to the **ROLE** of the user, he has access to different options in the system
-- **UserRole** - There are a few roles: **ADMIN, HR_MANAGER, DEPARTMENT_DIRECTOR, USER**
+- **UserRole** - There are a few roles: **ADMIN, HR_MANAGER, IT_LEAD, USER**
 
 ## **Coming Soon:**
 - **Project** feature

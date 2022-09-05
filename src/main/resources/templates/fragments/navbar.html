@@ -17,12 +17,16 @@
                         <a class="navbar-brand" href="/">Home</a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN') || hasRole('HR_MANAGER')">
-                        <a class="nav-link" th:href="@{/employees/pageable/1}">All Employees</a>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER')">
+                        <a class="nav-link" th:href="@{/employees/pageable/1}">Employees</a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN') || hasRole('HR_MANAGER')">
-                        <a class="nav-link" th:href="@{/departments/all}">All Departments</a>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER')">
+                        <a class="nav-link" th:href="@{/departments/all}">Departments</a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER', 'USER')">
+                        <a class="nav-link" th:href="@{/projects/pageable}">Projects</a>
                     </li>
 
                     <li class="nav-item" sec:authorize="!isAuthenticated()">

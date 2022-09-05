@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void seedUsers() {
         if (userRepository.count() < 1) {
+
             UserEntity admin = new UserEntity();
             admin.setUserName("Admin").setFirstName("Simeon").setLastName("Ivanov").setPassword(passwordEncoder.encode("123456"))
                     .setEmail("admin@abv.bg")
@@ -59,7 +60,12 @@ public class UserServiceImpl implements UserService {
                     .setEmail("marto@abv.bg")
                     .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER)));
 
-            userRepository.saveAll(List.of(admin, hrManager, firstUser));
+            UserEntity itLead = new UserEntity();
+            itLead.setUserName("ItLead").setFirstName("Ivan").setLastName("Ivanov").setPassword(passwordEncoder.encode("123456"))
+                    .setEmail("vanko@abv.bg")
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER)));
+
+            userRepository.saveAll(List.of(admin, hrManager, firstUser, itLead));
         }
     }
 
