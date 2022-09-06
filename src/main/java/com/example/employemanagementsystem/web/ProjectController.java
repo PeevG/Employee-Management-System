@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/projects")
@@ -26,6 +27,21 @@ public class ProjectController {
         return getProjectsPageable(1, model);
     }
 
+    @GetMapping("/{id}/details")
+    public String showProjectDescription(@PathVariable Long id,
+                                         Model model) {
+        model.addAttribute("project", projectService.getById(id));
+        model.addAttribute("projectDescription", projectService.getById(id).getDescription());
+        model.addAttribute("projectMembersNames", projectService.getProjectMembers(id)
+                .stream()
+                .map(employeesBasicViewModel -> String.join(" ", employeesBasicViewModel.getFirstName(),
+                        employeesBasicViewModel.getLastName())).collect(Collectors.toList()));
+
+        model.addAttribute("projectName", projectService.getById(id).getName());
+
+        return "project-details";
+    }
+
     @GetMapping("/pageable/{pageNo}")
     public String getProjectsPageable(@PathVariable Integer pageNo,
                                       Model model) {
@@ -34,6 +50,7 @@ public class ProjectController {
         List<ProjectViewModel> projectsList = projectsPageable.getContent();
 
         model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", projectsPageable.getTotalPages());
         model.addAttribute("ListOfProjects", projectsList);
         model.addAttribute("totalProjects", projectsPageable.getTotalElements());
 

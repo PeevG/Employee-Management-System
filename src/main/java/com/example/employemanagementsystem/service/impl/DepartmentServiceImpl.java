@@ -5,7 +5,7 @@ import com.example.employemanagementsystem.model.binding.DepartmentAddBindingMod
 import com.example.employemanagementsystem.model.binding.DepartmentUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.view.DepartmentViewModel;
-import com.example.employemanagementsystem.model.view.EmployeesPerDepartmentViewModel;
+import com.example.employemanagementsystem.model.view.EmployeesBasicViewModel;
 import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.service.DepartmentService;
 import org.modelmapper.ModelMapper;
@@ -86,12 +86,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<EmployeesPerDepartmentViewModel> getEmployeesByDepartment(Long id) {
+    public List<EmployeesBasicViewModel> getEmployeesByDepartment(Long id) {
         DepartmentEntity dep = departmentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Not found"));
 
-        List<EmployeesPerDepartmentViewModel> viewModels = dep.getEmployeeEntities()
+        List<EmployeesBasicViewModel> viewModels = dep.getEmployeeEntities()
                 .stream()
-                .map(employee -> modelMapper.map(employee, EmployeesPerDepartmentViewModel.class))
+                .map(employee -> modelMapper.map(employee, EmployeesBasicViewModel.class))
                 .collect(Collectors.toList());
         return viewModels;
     }
@@ -104,10 +104,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     DepartmentViewModel mapDepEntityToDepViewModel(DepartmentEntity department) {
-        List<EmployeesPerDepartmentViewModel> employees = department
+        List<EmployeesBasicViewModel> employees = department
                 .getEmployeeEntities()
                 .stream()
-                .map(employee -> modelMapper.map(employee, EmployeesPerDepartmentViewModel.class))
+                .map(employee -> modelMapper.map(employee, EmployeesBasicViewModel.class))
                 .collect(Collectors.toList());
 
         DepartmentViewModel model = modelMapper.map(department, DepartmentViewModel.class);

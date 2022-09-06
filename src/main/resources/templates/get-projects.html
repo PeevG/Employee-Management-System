@@ -25,7 +25,8 @@
             <th>Project Name</th>
             <th>Start Date</th>
             <th>Duration</th>
-            <th>Description</th>
+            <th>Project Members</th>
+            <th>Details</th>
         </tr>
         </thead>
         <tbody>
@@ -34,23 +35,46 @@
             <td th:text="${project.name}"></td>
             <td th:text="${project.startDate}"></td>
             <td th:text="${project.duration}"></td>
-            <td th:text="${project.description}"></td>
+            <td th:text="${project.getProjectMembers().size()}"></td>
+            <td>
+                <a class="card-link" th:href="@{/projects/{id}/details(id=${project.id})}">Click</a>
+            </td>
             <td class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD')">
                 <a th:href="@{/projects/{id}/update(id=${project.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/projects/{id}(id=${project.id})}" th:method="delete" class="btn btn-danger">Delete</a>
             </td>
             <td class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD', 'USER')">
-                <a th:href="@{/projects/{id}(id=${project.id})}" th:method="" class="btn btn-info">Join Project</a>
+                <a th:href="@{/projects/{id}(id=${project.id})}" th:method="post" class="btn btn-info">Join Project</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <div th:if="${currentPage == 1}">
-        <div class="col-sm-2">
-            Total rows: [[${totalProjects}]]
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total rows: [[${totalProjects}]]
+            </div>
+            <div class="col-sm-2">
+                <span class="pages" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a class="pages" th:if="${currentPage != i}"
+                       th:href="@{'/projects/pageable/' + ${i}}"> [[${i}]]</a>
+                    <span class="pages" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                </span>
+            </div>
+            <div class="col-sm-1 ">
+                <a class="pages" th:if="${currentPage < totalPages}"
+                   th:href="@{'/projects/pageable/' + ${currentPage + 1}}"> Next </a>
+                <span class="pages" th:unless="${currentPage < totalPages}"> Next </span>
+            </div>
+            <div class="col-sm-1">
+                <a class="pages" th:if="${currentPage < totalPages}"
+                   th:href="@{'/projects/pageable/' + ${totalPages}}"> Last </a>
+                <span class="pages" th:unless="${currentPage < totalPages}"> Last </span>
+            </div>
         </div>
-    </div>
+
+
 </div>
 
 

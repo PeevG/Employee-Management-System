@@ -6,7 +6,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,7 +27,7 @@ public class ProjectEntity extends BaseEntity{
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany()
     private List<EmployeeEntity> projectMembers = new ArrayList<>();
 
     public LocalDate getStartDate() {

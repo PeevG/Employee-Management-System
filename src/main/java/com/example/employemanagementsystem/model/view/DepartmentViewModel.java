@@ -1,7 +1,5 @@
 package com.example.employemanagementsystem.model.view;
 
-import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
-
 import java.util.List;
 
 public class DepartmentViewModel {
@@ -9,7 +7,7 @@ public class DepartmentViewModel {
     private Long id;
     private String name;
     private String description;
-    private List<EmployeesPerDepartmentViewModel> employees;
+    private List<EmployeesBasicViewModel> employees;
 
     public Long getId() {
         return id;
@@ -35,11 +33,11 @@ public class DepartmentViewModel {
         return this;
     }
 
-    public List<EmployeesPerDepartmentViewModel> getEmployees() {
+    public List<EmployeesBasicViewModel> getEmployees() {
         return employees;
     }
 
-    public DepartmentViewModel setEmployees(List<EmployeesPerDepartmentViewModel> employees) {
+    public DepartmentViewModel setEmployees(List<EmployeesBasicViewModel> employees) {
         this.employees = employees;
         return this;
     }

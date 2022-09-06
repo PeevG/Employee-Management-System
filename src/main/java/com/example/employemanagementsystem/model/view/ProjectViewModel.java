@@ -1,7 +1,10 @@
 package com.example.employemanagementsystem.model.view;
 
+import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class ProjectViewModel {
 
@@ -11,6 +14,7 @@ public class ProjectViewModel {
     private LocalDate startDate;
     private String duration;
     private String description;
+    private List<EmployeeEntity> projectMembers;
 
     public Long getId() {
         return id;
@@ -63,6 +67,15 @@ public class ProjectViewModel {
 
     public ProjectViewModel setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public List<EmployeeEntity> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public ProjectViewModel setProjectMembers(List<EmployeeEntity> projectMembers) {
+        this.projectMembers = projectMembers;
         return this;
     }
 }

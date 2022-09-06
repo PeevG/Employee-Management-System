@@ -1,6 +1,6 @@
 package com.example.employemanagementsystem.model.view;
 
-public class EmployeesPerDepartmentViewModel {
+public class EmployeesBasicViewModel {
     private Long id;
     private String firstName;
     private String lastName;
@@ -9,7 +9,7 @@ public class EmployeesPerDepartmentViewModel {
         return id;
     }
 
-    public EmployeesPerDepartmentViewModel setId(Long id) {
+    public EmployeesBasicViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -18,7 +18,7 @@ public class EmployeesPerDepartmentViewModel {
         return firstName;
     }
 
-    public EmployeesPerDepartmentViewModel setFirstName(String firstName) {
+    public EmployeesBasicViewModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -27,7 +27,7 @@ public class EmployeesPerDepartmentViewModel {
         return lastName;
     }
 
-    public EmployeesPerDepartmentViewModel setLastName(String lastName) {
+    public EmployeesBasicViewModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
