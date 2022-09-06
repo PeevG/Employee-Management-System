@@ -52,8 +52,7 @@ public class UserServiceImpl implements UserService {
             UserEntity hrManager = new UserEntity();
             hrManager.setUserName("HrManager").setFirstName("Nataliq").setLastName("Marinova").setPassword(passwordEncoder.encode("123456"))
                     .setEmail("nat@abv.bg")
-                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER),
-                            userRoleRepository.findUserRoleEntityByName(UserRoleEnum.IT_LEAD)));
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.HR_MANAGER)));
 
             UserEntity firstUser = new UserEntity();
             firstUser.setUserName("FirstUser").setFirstName("Martin").setLastName("Aleksiev").setPassword(passwordEncoder.encode("123456"))
@@ -63,7 +62,7 @@ public class UserServiceImpl implements UserService {
             UserEntity itLead = new UserEntity();
             itLead.setUserName("ItLead").setFirstName("Ivan").setLastName("Ivanov").setPassword(passwordEncoder.encode("123456"))
                     .setEmail("vanko@abv.bg")
-                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.USER)));
+                    .setRoles(List.of(userRoleRepository.findUserRoleEntityByName(UserRoleEnum.IT_LEAD)));
 
             userRepository.saveAll(List.of(admin, hrManager, firstUser, itLead));
         }

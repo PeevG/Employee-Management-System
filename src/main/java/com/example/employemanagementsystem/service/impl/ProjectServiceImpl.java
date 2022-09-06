@@ -1,6 +1,7 @@
 package com.example.employemanagementsystem.service.impl;
 
 import com.example.employemanagementsystem.exception.ObjectNotFoundException;
+import com.example.employemanagementsystem.model.binding.ProjectAddBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
 import com.example.employemanagementsystem.model.entity.ProjectEntity;
@@ -69,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .setStartDate(LocalDate.now())
                     .setDuration("7 days")
                     .setDescription("Mobile application bla bla bla")
-                    .setProjectMembers(List.of(employeeRepository.getById(1L),employeeRepository.getById(2L),
+                    .setProjectMembers(List.of(employeeRepository.getById(1L), employeeRepository.getById(2L),
                             employeeRepository.getById(4L), employeeRepository.getById(3L), employeeRepository.getById(5L)));
 
             ProjectEntity projectThree = new ProjectEntity();
@@ -78,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .setStartDate(LocalDate.now())
                     .setDuration("14 days")
                     .setDescription("Bank software. Bla bla bla ..")
-                    .setProjectMembers(List.of(employeeRepository.getById(3L),employeeRepository.getById(2L),
+                    .setProjectMembers(List.of(employeeRepository.getById(3L), employeeRepository.getById(2L),
                             employeeRepository.getById(4L)));
 
 
@@ -88,7 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .setStartDate(LocalDate.now())
                     .setDuration("15 days")
                     .setDescription("Test Test software. Bla bla bla ..")
-                    .setProjectMembers(List.of(employeeRepository.getById(1L),employeeRepository.getById(2L)));
+                    .setProjectMembers(List.of(employeeRepository.getById(1L), employeeRepository.getById(2L)));
 
             projectRepository.saveAll(List.of(projectOne, projectTwo, projectThree, projectFour));
         }
@@ -103,8 +104,31 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void addProject(ProjectAddBindingModel projectModel) {
+        ProjectEntity project = modelMapper.map(projectModel, ProjectEntity.class);
+        project.setStartDate(LocalDate.now());
+        project.setProjectNumber(generateRandomProjectNumber());
+        project.setProjectMembers(new ArrayList<>());
+
+        projectRepository.save(project);
+    }
+
+    private String generateRandomProjectNumber() {
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb = new StringBuilder(6);
+
+        for (int i = 0; i < 6; i++) {
+            int index
+                    = (int) (AlphaNumericString.length()
+                    * Math.random());
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+        return sb.toString();
+    }
+
     public ProjectViewModel mapProjectToDTO(ProjectEntity projectEntity) {
-        ProjectViewModel model = modelMapper.map(projectEntity, ProjectViewModel.class);
-        return model;
+        return modelMapper.map(projectEntity, ProjectViewModel.class);
     }
 }

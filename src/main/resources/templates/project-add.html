@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Employee Management System</title>
-
+    <title>Add Project</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+          crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 </head>
 <body>
@@ -15,26 +16,41 @@
 </div>
 
 <div class="container my-2">
-    <h2 class="text-center text-black">Add Department</h2>
+    <h2 class="text-center text-black">Add Project</h2>
     <form
-            th:action="@{/departments/add}"
+            th:action="@{/projects/addProject}"
             th:method="post"
-            th:object="${departmentAddBindingModel}"
+            th:object="${addProjectModel}"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
             <div class="form-group col-md-6 mb-3">
-                <label for="name" class="text-white font-weight-bold">Department Name</label>
+                <label for="name" class="text-white font-weight-bold">Project Name</label>
                 <input
                         id="name"
                         th:field="*{name}"
                         th:errorclass="is-invalid"
                         type="text"
                         class="form-control"
-                        placeholder="Department Name"/>
+                        placeholder="Project name"/>
                 <p class="invalid-feedback errors alert alert-danger">
-                    Department name is required and should be between 3 and 25 symbols.
+                    Project name is required.
                 </p>
             </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="duration" class="text-white font-weight-bold">Duration</label>
+                <input
+                        id="duration"
+                        th:field="*{duration}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"
+                        placeholder="Duration"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Duration is required.
+                </p>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="description" class="text-white font-weight-bold">Description</label>
                 <input
@@ -45,7 +61,7 @@
                         class="form-control"
                         placeholder="Description"/>
                 <p class="invalid-feedback errors alert alert-danger">
-                    Description is required.
+                    Description required.
                 </p>
             </div>
         </div>

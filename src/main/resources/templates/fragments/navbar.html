@@ -25,7 +25,7 @@
                         <a class="nav-link" th:href="@{/departments/all}">Departments</a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'HR_MANAGER', 'USER')">
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD')">
                         <a class="nav-link" th:href="@{/projects/pageable}">Projects</a>
                     </li>
 

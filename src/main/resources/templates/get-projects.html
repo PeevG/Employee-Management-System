@@ -17,7 +17,7 @@
 
 <div class="container my-2">
     <h2>Projects list</h2>
-    <a class="btn btn-info btn-lg mb-3" th:href="@{/projects/add}" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD')">Add Project</a>
+    <a class="btn btn-info btn-lg mb-3" th:href="@{/projects/addProject}" sec:authorize="hasAnyRole('IT_LEAD', 'ADMIN')">Add Project</a>
     <table th:align="center" class="table table-responsive-md">
         <thead>
         <tr>
@@ -44,7 +44,7 @@
                 <a th:href="@{/projects/{id}(id=${project.id})}" th:method="delete" class="btn btn-danger">Delete</a>
             </td>
             <td class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD', 'USER')">
-                <a th:href="@{/projects/{id}(id=${project.id})}" th:method="post" class="btn btn-info">Join Project</a>
+                <a th:href="@{/projects/{id}(id=${project.id})}" th:method="post" class="btn btn-info">Add Member</a>
             </td>
         </tr>
         </tbody>

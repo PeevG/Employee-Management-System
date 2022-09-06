@@ -5,6 +5,7 @@ import javax.validation.constraints.*;
 public class EmployeeAddBindingModel {
 
     private Long id;
+
     @NotBlank()
     @Size(min = 3, max = 25)
     private String firstName;
