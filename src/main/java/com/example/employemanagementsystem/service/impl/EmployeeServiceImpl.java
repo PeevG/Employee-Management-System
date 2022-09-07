@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         DepartmentEntity department = departmentRepository
                 .findByName(employeeAddBindingModel.getDepartment()).orElseThrow(()
                         -> new ObjectNotFoundException("Department with name " + employeeAddBindingModel.getDepartment() + " is not found."));
-        employee.setDepartment(department);
+        employee.setDepartment(department)
+                .setHireDate(LocalDate.now());
         this.employeeRepository.save(employee);
     }
 
@@ -73,6 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setAge(employeeUpdateBindingModel.getAge())
                 .setEmail(employeeUpdateBindingModel.getEmail())
                 .setDepartment(department)
+                .setSalary(employeeUpdateBindingModel.getSalary())
                 .setId(employeeUpdateBindingModel.getId());
 
         employeeRepository.save(employee);
@@ -88,19 +92,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void seedEmployees() {
         if (employeeRepository.count() < 1) {
             EmployeeEntity ivo = new EmployeeEntity().setFirstName("Ivailo").setLastName("Ivailov")
-                    .setAge(21).setEmail("ivo@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+                    .setAge(21).setEmail("ivo@gmail.com").setDepartment(departmentRepository.getReferenceById(1L))
+                    .setSalary(BigDecimal.valueOf(2000)).setHireDate(LocalDate.now());
 
             EmployeeEntity desi = new EmployeeEntity().setFirstName("Desislava").setLastName("Stoianova")
-                    .setAge(27).setEmail("desi@gmail.com").setDepartment(departmentRepository.getReferenceById(2L));
+                    .setAge(27).setEmail("desi@gmail.com").setDepartment(departmentRepository.getReferenceById(2L))
+                    .setSalary(BigDecimal.valueOf(2500)).setHireDate(LocalDate.now());
 
             EmployeeEntity pesho = new EmployeeEntity().setFirstName("Pesho").setLastName("Petrov")
-                    .setAge(32).setEmail("petyr@gmail.com").setDepartment(departmentRepository.getReferenceById(3L));
+                    .setAge(32).setEmail("petyr@gmail.com").setDepartment(departmentRepository.getReferenceById(3L))
+                    .setSalary(BigDecimal.valueOf(4000)).setHireDate(LocalDate.now());
 
             EmployeeEntity sasho = new EmployeeEntity().setFirstName("Aleksandyr").setLastName("Dimitrov")
-                    .setAge(29).setEmail("sashik@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+                    .setAge(29).setEmail("sashik@gmail.com").setDepartment(departmentRepository.getReferenceById(1L))
+                    .setSalary(BigDecimal.valueOf(5000)).setHireDate(LocalDate.now());
 
             EmployeeEntity gosho = new EmployeeEntity().setFirstName("Georgi").setLastName("Metodiev")
-                    .setAge(31).setEmail("joro@gmail.com").setDepartment(departmentRepository.getReferenceById(1L));
+                    .setAge(31).setEmail("joro@gmail.com").setDepartment(departmentRepository.getReferenceById(1L))
+                    .setSalary(BigDecimal.valueOf(7200)).setHireDate(LocalDate.now());
             employeeRepository.saveAll(List.of(ivo, desi, pesho, sasho, gosho));
         }
     }

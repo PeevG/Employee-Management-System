@@ -1,6 +1,9 @@
 package com.example.employemanagementsystem.model.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,8 +22,32 @@ public class EmployeeEntity extends BaseEntity {
     @Column
     private String email;
 
+    @Column(name = "hire_date")
+    private LocalDate hireDate;
+
+    @Column(nullable = false)
+    private BigDecimal salary;
+
     @ManyToOne()
     private DepartmentEntity department;
+
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public EmployeeEntity setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+        return this;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public EmployeeEntity setSalary(BigDecimal salary) {
+        this.salary = salary;
+        return this;
+    }
 
     public String getFirstName() {
         return firstName;

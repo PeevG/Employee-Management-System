@@ -1,6 +1,7 @@
 package com.example.employemanagementsystem.model.binding;
 
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 public class EmployeeUpdateBindingModel {
 
@@ -24,6 +25,10 @@ public class EmployeeUpdateBindingModel {
 
     @NotBlank
     private String department;
+
+    @DecimalMin("750")
+    @NotNull
+    private BigDecimal salary;
 
     public Long getId() {
         return id;
@@ -76,6 +81,15 @@ public class EmployeeUpdateBindingModel {
 
     public EmployeeUpdateBindingModel setDepartment(String department) {
         this.department = department;
+        return this;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public EmployeeUpdateBindingModel setSalary(BigDecimal salary) {
+        this.salary = salary;
         return this;
     }
 }

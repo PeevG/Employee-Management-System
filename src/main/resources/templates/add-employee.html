@@ -93,9 +93,21 @@
                         Department
                     </option>
                 </select>
-
                 <p class="invalid-feedback errors alert alert-danger">
                     Department name is required and should be between 3 and 25 symbols.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="salary" class="text-white font-weight-bold">Salary</label>
+                <input
+                        id="salary"
+                        th:field="*{salary}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"
+                        placeholder="Salary"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Salary is required and should be above minimal salary(750lv.).
                 </p>
             </div>
         </div>
