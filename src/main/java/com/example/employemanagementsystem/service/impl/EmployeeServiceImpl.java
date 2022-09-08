@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmployee(EmployeeAddBindingModel employeeAddBindingModel) {
+
         EmployeeEntity employee = modelMapper.map(employeeAddBindingModel, EmployeeEntity.class);
         DepartmentEntity department = departmentRepository
                 .findByName(employeeAddBindingModel.getDepartment()).orElseThrow(()
@@ -76,6 +78,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateEmployee(EmployeeUpdateBindingModel employeeUpdateBindingModel) {
+       EmployeeEntity empEntity = employeeRepository.findById(employeeUpdateBindingModel.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Object with id " + employeeUpdateBindingModel.getId()
+                + " is not found."));
 
         EmployeeUpdateBindingModel employeeById = getEmployeeById(employeeUpdateBindingModel.getId());
         EmployeeEntity employee = modelMapper.map(employeeById, EmployeeEntity.class);
@@ -85,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setLastName(employeeUpdateBindingModel.getLastName())
                 .setAge(employeeUpdateBindingModel.getAge())
                 .setEmail(employeeUpdateBindingModel.getEmail())
+                .setHireDate(empEntity.getHireDate())
                 .setDepartment(department)
                 .setSalary(employeeUpdateBindingModel.getSalary())
                 .setId(employeeUpdateBindingModel.getId());

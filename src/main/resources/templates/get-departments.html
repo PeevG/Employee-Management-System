@@ -25,14 +25,16 @@
         <tr>
             <th>Department Name</th>
             <th>Department Description</th>
+            <th>Employees</th>
             <th>Department Employees</th>
             <th sec:authorize="hasRole('ADMIN')">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="department : ${listOfDepartments}">
-            <td th:text="${department.name}"></td>
-            <td th:text="${department.description}"></td>
+            <td th:text="*{department.name}"></td>
+            <td th:text="*{department.description}"></td>
+            <td th:text="*{department.getEmployees().size()}"></td>
             <td>
                 <a class="card-link" th:href="@{/departments/{id}/details(id=${department.id})}">Employees</a>
             </td>

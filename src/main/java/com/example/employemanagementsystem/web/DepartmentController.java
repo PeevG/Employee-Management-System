@@ -3,6 +3,7 @@ package com.example.employemanagementsystem.web;
 import com.example.employemanagementsystem.model.binding.DepartmentAddBindingModel;
 import com.example.employemanagementsystem.model.binding.DepartmentUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
+import com.example.employemanagementsystem.model.view.DepartmentViewModel;
 import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.service.DepartmentService;
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/departments")
@@ -34,6 +36,7 @@ public class DepartmentController {
 
     @GetMapping("/{id}/details")
     public String showEmployeesByDepartment(@PathVariable Long id, Model model) {
+
         model.addAttribute("listOfDepartments", departmentService.showAllDepartments());
         model.addAttribute("employeesPerDep", departmentService.getEmployeesByDepartment(id));
         model.addAttribute("pageTitle", departmentService.getById(id).getName());
