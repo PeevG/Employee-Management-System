@@ -6,6 +6,7 @@ import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingMo
 import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+import com.example.employemanagementsystem.model.view.EmployeeDetailsViewModel;
 import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.repository.EmployeeRepository;
 import com.example.employemanagementsystem.service.EmployeeService;
@@ -61,6 +62,15 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() ->
                         new ObjectNotFoundException("Employee with " + id + " is not found."));
         return modelMapper.map(employee, EmployeeUpdateBindingModel.class);
+    }
+
+    @Override
+    public EmployeeDetailsViewModel getEmployeeDetailsById(long id) {
+        EmployeeEntity employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("Employee with " + id + " is not found."));
+
+        return modelMapper.map(employee, EmployeeDetailsViewModel.class);
     }
 
 

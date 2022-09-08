@@ -37,6 +37,15 @@ public class EmployeeController {
         return "employees/pageable";
     }
 
+    @GetMapping("/{id}/details")
+    public String showEmployeeDetailsView(@PathVariable Long id, Model model) {
+        model.addAttribute("employeeFName", employeeService.getEmployeeById(id).getFirstName());
+        model.addAttribute("employeeModel", employeeService.getEmployeeDetailsById(id));
+        model.addAttribute("departmentName", employeeService.getEmployeeDetailsById(id).getDepartment().getName());
+
+        return "employee-details";
+    }
+
     @GetMapping("/add")
     public String addEmployee(Model model) {
         if (!model.containsAttribute("employeeAddBindingModel")) {

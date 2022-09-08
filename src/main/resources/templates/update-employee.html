@@ -81,48 +81,50 @@
                     Email is required and should be correct.
                 </p>
             </div>
-        </div>
-        <div class="form-group col-md-6 mb-3">
-            <label for="department" class="text-white font-weight-bold">Department name</label>
-            <select
-                    id="department"
-                    th:field="*{department}"
-                    th:errorclass="is-invalid"
-                    class="form-control">
-                <option value="">- Select Department -</option>
-                <option
-                        th:each="department : ${listOfDepartments}"
-                        th:value="${department}"
-                        th:text="${department}"
-                        th:selected="${department} == *{department}"
-                >
-                    Department
-                </option>
-            </select>
-            <p class="invalid-feedback errors alert alert-danger">
-                Department name is required.
-            </p>
-        </div>
-        <div class="form-group col-md-6 mb-3">
-            <label for="salary" class="text-white font-weight-bold">Salary</label>
-            <input
-                    id="salary"
-                    th:field="*{salary}"
-                    th:errorclass="is-invalid"
-                    type="text"
-                    class="form-control"
-                    placeholder="Salary"/>
-            <p class="invalid-feedback errors alert alert-danger">
-                Salary is required and should be above minimal salary(750lv.).
-            </p>
-        </div>
-            <div class="col col-md-4">
-                <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Update"/>
+            <div class="row">
+                <div class="form-group col-md-6 mb-3">
+                    <label for="salary" class="text-white font-weight-bold">Salary</label>
+                    <input
+                            id="salary"
+                            th:field="*{salary}"
+                            th:errorclass="is-invalid"
+                            type="text"
+                            class="form-control"
+                            placeholder="Salary"/>
+                    <p class="invalid-feedback errors alert alert-danger">
+                        Salary is required and should be above minimal salary(750lv.).
+                    </p>
                 </div>
             </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="department" class="text-white font-weight-bold">Department name</label>
+                <select
+                        id="department"
+                        th:field="*{department}"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="">- Select Department -</option>
+                    <option
+                            th:each="department : ${listOfDepartments}"
+                            th:value="${department}"
+                            th:text="${department}"
+                            th:selected="${department} == *{department}"
+                    >
+                        Department
+                    </option>
+                </select>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Department name is required.
+                </p>
+            </div>
         </div>
-    </form>
+        <div class="col col-md-4">
+            <div class="button-holder d-flex">
+                <input type="submit" class="btn btn-info btn-lg" value="Update"/>
+            </div>
+        </div>
+</div>
+</form>
 </div>
 
 </body>

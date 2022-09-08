@@ -1,10 +1,8 @@
 package com.example.employemanagementsystem.model.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "employees")
