@@ -23,5 +23,6 @@
 </p>
 
 
-
-![SS Employee Management System](https://user-images.githubusercontent.com/79812727/188287383-dfd47158-f2ca-415d-bb25-72ea9bd6ad8c.png)
+![ss1](https://user-images.githubusercontent.com/79812727/189216137-59f1d276-5b30-4da9-9628-1baca6536761.png)
+![ss2](https://user-images.githubusercontent.com/79812727/189216148-f394de73-1b34-490f-9f89-93703462b0d3.png)
+![ss3](https://user-images.githubusercontent.com/79812727/189216161-07ff5ad3-5ca8-4159-b4e1-d34014e0742b.png)
