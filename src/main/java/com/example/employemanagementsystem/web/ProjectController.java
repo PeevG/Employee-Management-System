@@ -83,4 +83,10 @@ public class ProjectController {
         projectService.addProject(projectModel);
         return "redirect:/projects/pageable";
     }
+
+    @GetMapping("/update")
+    public String updateProject() {
+        //Todo: implementation
+        return "";
+    }
 }
