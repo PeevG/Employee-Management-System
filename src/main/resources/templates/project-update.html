@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Update</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar">
+    Navbar
+</div>
+
+<div class="container my-2">
+    <h2 class="text-center text-black">Update Project</h2>
+    <form
+            th:object="${projectUpdateModel}"
+            th:action="@{/projects/{id}/update(id=*{id})}"
+            th:method="PATCH"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="name" class="text-white font-weight-bold">Project Name</label>
+                <input
+                        id="name"
+                        th:field="*{name}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"
+                        placeholder="Project name"
+                />
+                <p class="invalid-feedback errors alert alert-danger">
+                    Project name is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="duration" class="text-white font-weight-bold">Duration</label>
+                <input
+                        id="duration"
+                        th:field="*{duration}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Duration is required! For example "10 days".
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="description" class="text-white font-weight-bold">Description</label>
+                <input
+                        id="description"
+                        th:field="*{description}"
+                        th:errorclass="is-invalid"
+                        type="text"
+                        class="form-control"/>
+                <p class="invalid-feedback errors alert alert-danger">
+                    Description is required.
+                </p>
+            </div>
+        </div>
+        <div class="col col-md-4">
+            <div class="button-holder d-flex">
+                <input type="submit" class="btn btn-info btn-lg" value="Update"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

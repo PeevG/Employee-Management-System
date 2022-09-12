@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void updateEmployee(EmployeeUpdateBindingModel employeeUpdateBindingModel) {
        EmployeeEntity empEntity = employeeRepository.findById(employeeUpdateBindingModel.getId())
-                .orElseThrow(() -> new ObjectNotFoundException("Object with id " + employeeUpdateBindingModel.getId()
+                .orElseThrow(() -> new ObjectNotFoundException("Employee with id " + employeeUpdateBindingModel.getId()
                 + " is not found."));
 
         EmployeeUpdateBindingModel employeeById = getEmployeeById(employeeUpdateBindingModel.getId());

@@ -1,16 +1,16 @@
 package com.example.employemanagementsystem.web;
 
+import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
 import com.example.employemanagementsystem.model.binding.ProjectAddBindingModel;
+import com.example.employemanagementsystem.model.binding.ProjectUpdateBindingModel;
+import com.example.employemanagementsystem.model.view.DepartmentViewModel;
 import com.example.employemanagementsystem.model.view.ProjectViewModel;
 import com.example.employemanagementsystem.service.ProjectService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -84,9 +84,37 @@ public class ProjectController {
         return "redirect:/projects/pageable";
     }
 
-    @GetMapping("/update")
-    public String updateProject() {
-        //Todo: implementation
-        return "";
+    @GetMapping("/{id}/update")
+    public String updateProject(@PathVariable Long id,
+                                Model model) {
+        ProjectUpdateBindingModel projectModel = projectService.getUpdateModelById(id);
+        model.addAttribute("projectUpdateModel", projectModel);
+
+        return "project-update";
+    }
+    //Todo: Have to find how to show errors without this method.
+    /*@GetMapping("/{id}/update/errors")
+    public String updateProjectErrors(Model model) {
+        model.addAttribute()
+        return "project-update";
+    }*/
+
+    @PatchMapping("/{id}/update")
+    public String updateProject(@PathVariable Long id,
+                                 @Valid ProjectUpdateBindingModel bindingModel,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("ProjectUpdateBindingModel", bindingModel);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.ProjectUpdateBindingModel"
+                            ,bindingResult);
+
+            return "redirect:/projects/" + id + "/update";
+        }
+
+        projectService.updateProject(bindingModel);
+        return "redirect:/projects/pageable";
     }
 }

@@ -2,6 +2,7 @@ package com.example.employemanagementsystem.service.impl;
 
 import com.example.employemanagementsystem.exception.ObjectNotFoundException;
 import com.example.employemanagementsystem.model.binding.ProjectAddBindingModel;
+import com.example.employemanagementsystem.model.binding.ProjectUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
 import com.example.employemanagementsystem.model.entity.ProjectEntity;
@@ -40,6 +41,14 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException("Project with id " + id + " is not found"));
         return modelMapper.map(project, ProjectViewModel.class);
+    }
+
+    @Override
+    public ProjectUpdateBindingModel getUpdateModelById(Long id) {
+        ProjectEntity project = projectRepository
+                .findById(id).orElseThrow(() -> new ObjectNotFoundException("Project with id " + id + " not exist."));
+        ProjectUpdateBindingModel projectModel = modelMapper.map(project, ProjectUpdateBindingModel.class);
+        return projectModel;
     }
 
     @Override
@@ -110,6 +119,19 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStartDate(LocalDate.now());
         project.setProjectNumber(generateRandomProjectNumber());
         project.setProjectMembers(new ArrayList<>());
+
+        projectRepository.save(project);
+    }
+
+    @Override
+    public void updateProject(ProjectUpdateBindingModel bindingModel) {
+        ProjectEntity project = projectRepository.findById(bindingModel.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Project with id " + bindingModel.getId()
+                + " is not found."));
+
+        project.setName(bindingModel.getName())
+                .setDuration(bindingModel.getDuration())
+                .setDescription(bindingModel.getDescription());
 
         projectRepository.save(project);
     }

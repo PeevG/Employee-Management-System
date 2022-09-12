@@ -3,7 +3,6 @@ package com.example.employemanagementsystem.model.view;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class ProjectViewModel {
