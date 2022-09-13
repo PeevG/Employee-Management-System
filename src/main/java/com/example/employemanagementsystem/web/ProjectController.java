@@ -63,8 +63,8 @@ public class ProjectController {
     }
 
     @GetMapping("/addProject")
-    public String addProject(Model model){
-        if(!model.containsAttribute("addProjectModel"))
+    public String addProject(Model model) {
+        if (!model.containsAttribute("addProjectModel"))
             model.addAttribute("addProjectModel", new ProjectAddBindingModel());
         return "project-add";
     }
@@ -72,11 +72,11 @@ public class ProjectController {
     @PostMapping("/addProject")
     public String addProject(@Valid ProjectAddBindingModel projectModel,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
+                             RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addProjectModel", projectModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addProjectModel"
-                    ,bindingResult);
+                    , bindingResult);
             return "project-add";
         }
 
@@ -88,30 +88,32 @@ public class ProjectController {
     public String updateProject(@PathVariable Long id,
                                 Model model) {
         ProjectUpdateBindingModel projectModel = projectService.getUpdateModelById(id);
-        model.addAttribute("projectUpdateModel", projectModel);
+        model.addAttribute("ProjectUpdateBindingModel", projectModel);
 
         return "project-update";
     }
-    //Todo: Have to find how to show errors without this method.
-    /*@GetMapping("/{id}/update/errors")
-    public String updateProjectErrors(Model model) {
-        model.addAttribute()
+    //Todo: - Visualise error messages in update project Form.
+    @GetMapping("/{id}/update/errors")
+    public String updateProjectErrors(@PathVariable Long id, Model model) {
+        ProjectUpdateBindingModel projectToUpdate = projectService.getProjectToUpdate(id);
+        model.addAttribute(projectToUpdate);
+        
         return "project-update";
-    }*/
+    }
 
     @PatchMapping("/{id}/update")
     public String updateProject(@PathVariable Long id,
-                                 @Valid ProjectUpdateBindingModel bindingModel,
-                                 BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes) {
+                                @Valid ProjectUpdateBindingModel bindingModel,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("ProjectUpdateBindingModel", bindingModel);
             redirectAttributes
                     .addFlashAttribute("org.springframework.validation.BindingResult.ProjectUpdateBindingModel"
-                            ,bindingResult);
+                            , bindingResult);
 
-            return "redirect:/projects/" + id + "/update";
+            return "redirect:/projects/" + id + "/update/errors";
         }
 
         projectService.updateProject(bindingModel);

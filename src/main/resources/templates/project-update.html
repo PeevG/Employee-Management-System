@@ -17,7 +17,7 @@
 <div class="container my-2">
     <h2 class="text-center text-black">Update Project</h2>
     <form
-            th:object="${projectUpdateModel}"
+            th:object="${ProjectUpdateBindingModel}"
             th:action="@{/projects/{id}/update(id=*{id})}"
             th:method="PATCH"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
@@ -33,7 +33,6 @@
                         th:errorclass="is-invalid"
                         type="text"
                         class="form-control"
-                        placeholder="Project name"
                 />
                 <p class="invalid-feedback errors alert alert-danger">
                     Project name is required.

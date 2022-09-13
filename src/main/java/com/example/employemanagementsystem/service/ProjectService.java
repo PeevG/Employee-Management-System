@@ -15,4 +15,6 @@ public interface ProjectService {
     List<EmployeesBasicViewModel> getProjectMembers(Long id);
     void addProject(ProjectAddBindingModel projectModel);
     void updateProject(ProjectUpdateBindingModel bindingModel);
+
+    ProjectUpdateBindingModel getProjectToUpdate(Long id);
 }

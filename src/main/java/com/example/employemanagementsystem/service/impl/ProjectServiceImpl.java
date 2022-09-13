@@ -136,6 +136,12 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
+    @Override
+    public ProjectUpdateBindingModel getProjectToUpdate(Long id) {
+        ProjectEntity project = projectRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Project with id " + id + " is not found"));
+        return modelMapper.map(project, ProjectUpdateBindingModel.class);
+    }
+
     private String generateRandomProjectNumber() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder(6);
