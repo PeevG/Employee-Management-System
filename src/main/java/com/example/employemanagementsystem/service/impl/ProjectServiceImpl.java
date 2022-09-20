@@ -142,6 +142,13 @@ public class ProjectServiceImpl implements ProjectService {
         return modelMapper.map(project, ProjectUpdateBindingModel.class);
     }
 
+    @Override
+    public void deleteProject(Long id) {
+        ProjectEntity project = projectRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Project with id " + id + " not found."));
+        projectRepository.delete(project);
+    }
+
     private String generateRandomProjectNumber() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder(6);

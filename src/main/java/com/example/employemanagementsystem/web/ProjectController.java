@@ -92,12 +92,13 @@ public class ProjectController {
 
         return "project-update";
     }
+
     //Todo: - Visualise error messages in update project Form.
     @GetMapping("/{id}/update/errors")
     public String updateProjectErrors(@PathVariable Long id, Model model) {
         ProjectUpdateBindingModel projectToUpdate = projectService.getProjectToUpdate(id);
         model.addAttribute(projectToUpdate);
-        
+
         return "project-update";
     }
 
@@ -115,8 +116,13 @@ public class ProjectController {
 
             return "redirect:/projects/" + id + "/update/errors";
         }
-
         projectService.updateProject(bindingModel);
+        return "redirect:/projects/pageable";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteProject(@PathVariable Long id) {
+        projectService.deleteProject(id);
         return "redirect:/projects/pageable";
     }
 }
