@@ -6,9 +6,12 @@ import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingMo
 import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
 import com.example.employemanagementsystem.model.entity.DepartmentEntity;
 import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+import com.example.employemanagementsystem.model.entity.ProjectEntity;
 import com.example.employemanagementsystem.model.view.EmployeeDetailsViewModel;
+import com.example.employemanagementsystem.model.view.EmployeesBasicViewModel;
 import com.example.employemanagementsystem.repository.DepartmentRepository;
 import com.example.employemanagementsystem.repository.EmployeeRepository;
+import com.example.employemanagementsystem.repository.ProjectRepository;
 import com.example.employemanagementsystem.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -20,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +30,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
+    private final ProjectRepository projectRepository;
     private final ModelMapper modelMapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, ModelMapper modelMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, ProjectRepository projectRepository, ModelMapper modelMapper) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
+        this.projectRepository = projectRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -147,6 +151,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         Page<EmployeeEntity> entityPage = employeeRepository.findAll(pageable);
         return entityPage
                 .map(this::mapEmployeeEntityToBindingModel);
+    }
+
+    @Override
+    public List<EmployeeGetAllBindingModel> getEmployeesWhoNotInTheCurrentProject(long id) {
+        ProjectEntity project = projectRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Project not found!"));
+        List<EmployeeEntity> projectMembers = project.getProjectMembers();
+        List<EmployeeEntity> all = employeeRepository.findAll();
+        for (EmployeeEntity member : projectMembers) {
+            all.remove(member);
+        }
+        return all.stream()
+                .map(this::mapEmployeeEntityToBindingModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addEmployeeToProject(long projectId, long employeeId) {
+        ProjectEntity project = projectRepository.findById(projectId).orElseThrow(() -> new ObjectNotFoundException("Project not found!"));
+        List<EmployeeEntity> projectMembers = project.getProjectMembers();
+        EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ObjectNotFoundException("Employee not found!"));
+        projectMembers.add(employee);
     }
 
     public EmployeeGetAllBindingModel mapEmployeeEntityToBindingModel(EmployeeEntity employee) {

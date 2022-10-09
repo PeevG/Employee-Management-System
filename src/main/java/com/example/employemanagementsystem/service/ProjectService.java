@@ -19,4 +19,6 @@ public interface ProjectService {
     ProjectUpdateBindingModel getProjectToUpdate(Long id);
 
     void deleteProject(Long id);
+
+
 }

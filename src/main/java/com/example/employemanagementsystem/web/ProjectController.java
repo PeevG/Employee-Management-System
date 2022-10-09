@@ -1,10 +1,13 @@
 package com.example.employemanagementsystem.web;
 
-import com.example.employemanagementsystem.model.binding.EmployeeUpdateBindingModel;
+import com.example.employemanagementsystem.model.binding.EmployeeGetAllBindingModel;
 import com.example.employemanagementsystem.model.binding.ProjectAddBindingModel;
 import com.example.employemanagementsystem.model.binding.ProjectUpdateBindingModel;
-import com.example.employemanagementsystem.model.view.DepartmentViewModel;
+import com.example.employemanagementsystem.model.entity.EmployeeEntity;
+import com.example.employemanagementsystem.model.view.EmployeeDetailsViewModel;
+import com.example.employemanagementsystem.model.view.EmployeesBasicViewModel;
 import com.example.employemanagementsystem.model.view.ProjectViewModel;
+import com.example.employemanagementsystem.service.EmployeeService;
 import com.example.employemanagementsystem.service.ProjectService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -22,9 +25,11 @@ import java.util.stream.Collectors;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final EmployeeService employeeService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, EmployeeService employeeService) {
         this.projectService = projectService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/pageable")
@@ -123,6 +128,22 @@ public class ProjectController {
     @GetMapping("/{id}/delete")
     public String deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
+        return "redirect:/projects/pageable";
+    }
+
+    @GetMapping("/{id}/addMember")
+    public String addMember(@PathVariable long id, Model model){
+        List<EmployeeGetAllBindingModel> employeesWhoNotInTheCurrentProject = employeeService.getEmployeesWhoNotInTheCurrentProject(id);
+        model.addAttribute("ListOfEmployees",employeesWhoNotInTheCurrentProject);
+        return "add-member-to-project";
+    }
+
+    @PostMapping("/{projectId}/addMember/{employeeId}")
+    public String addMember(@PathVariable long projectId, long employeeId, Model model){
+
+        Model project = model.addAttribute(projectService.getById(projectId));
+        model.addAttribute("p roject", project);
+        employeeService.addEmployeeToProject(projectId, employeeId);
         return "redirect:/projects/pageable";
     }
 }

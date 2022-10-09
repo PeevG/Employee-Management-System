@@ -149,6 +149,8 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(project);
     }
 
+
+
     private String generateRandomProjectNumber() {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder(6);

@@ -43,8 +43,8 @@
                 <a th:href="@{/projects/{id}/update(id=${project.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/projects/{id}/delete(id=${project.id})}" th:method="delete" class="btn btn-danger">Delete</a>
             </td>
-            <td class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD', 'USER')">
-                <a th:href="@{/projects/{id}(id=${project.id})}" th:method="post" class="btn btn-info">Add Member</a>
+            <td class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'IT_LEAD')">
+                <a th:href="@{/projects/{id}/addMember(id=${project.id})}" th:method="get" class="btn btn-info">Add Member</a>
             </td>
         </tr>
         </tbody>
