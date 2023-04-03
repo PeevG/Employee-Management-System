@@ -5,12 +5,7 @@
 - **Employee** - Support all **CRUD** operations depending on authorization(Spring Security)
 - **User** - According to the **ROLE** of the user, he has access to different options in the system
 - **UserRole** - There are a few roles: **ADMIN, HR_MANAGER, IT_LEAD, USER**
-
-## **Coming Soon:**
-- **Project** feature
-- Pagination and sorting
-- Tests 
-- And more... :) 
+ 
 
 ## **Technologies used:**
 
